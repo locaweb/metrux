@@ -1,0 +1,48 @@
+default: &defaults
+  #
+  # Your application's name (All metrics will be marked with this tag
+  #
+  # app_name: "My application"
+
+  #
+  # Whether it is active for this environment, can be true or false
+  # default: false
+  #
+  active: true
+
+  #
+  # Interval that agent will execute all registered periodic metrics
+  # (in seconds)
+  #
+  periodic_gauge_interval: 5 # default: 60
+
+  #
+  # Metrux logger configuration
+  #
+  log_file: 'log/metrux.log' # default: STDOUT
+  log_level: 'info' # default: info
+
+  #
+  # Influx configuration
+  # See: https://github.com/influxdata/influxdb-ruby#creating-a-client
+  #
+  influx_host: 'hostname'
+  influx_port: 80
+  influx_database: 'database'
+  influx_username: 'user'
+  influx_password: 'secret'
+  influx_async: true
+
+development:
+  <<: *defaults
+  # app_name: "My application (Dev)"
+  active: false
+
+test:
+  <<: *defaults
+  # app_name: "My application (Test)"
+  log_file: '/dev/null'
+  active: false
+
+production:
+  <<: *defaults
