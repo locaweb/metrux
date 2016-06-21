@@ -1,5 +1,8 @@
-require "metrux/version"
+require 'metrux/version'
+require 'metrux/loggable'
 
 module Metrux
-  # Your code goes here...
+  class << self
+    attr_reader :logger
+  end
 end
