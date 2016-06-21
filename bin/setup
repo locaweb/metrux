@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
-set -vx
+
+echo "Creating log dir..."
+mkdir -p log
+
+if [ ! -f "config/metrux.yml" ]
+then
+  echo "Copying config/metrux{.sample.yml,.yml}..."
+  cp config/metrux{.sample.yml,.yml}
+fi
 
 bundle install
+gem install geminabox --no-ri --no-rdoc
