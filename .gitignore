@@ -7,4 +7,6 @@
 /pkg/
 /spec/reports/
 /tmp/
+/log/
 .ruby-version
+/config/metrux.yml
