@@ -1,4 +1,5 @@
 require 'active_support/core_ext/hash'
+require 'active_support/core_ext/object/blank'
 require 'yaml'
 require 'metrux/version'
 require 'metrux/loggable'

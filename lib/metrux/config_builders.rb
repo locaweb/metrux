@@ -5,3 +5,4 @@ module Metrux
 end
 
 require_relative 'config_builders/yaml'
+require_relative 'config_builders/common'
