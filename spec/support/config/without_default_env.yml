@@ -1,0 +1,14 @@
+default: &defaults
+  active: true
+
+  periodic_gauge_interval: 42
+
+  log_file: 'log/metrux.log'
+  log_level: 'info' # default: info
+
+  influx_host: 'host'
+  influx_port: 80
+  influx_database: 'dabase'
+  influx_username: 'user'
+  influx_password: 'secret'
+  influx_async: true
