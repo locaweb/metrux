@@ -7,3 +7,4 @@ end
 require_relative 'config_builders/yaml'
 require_relative 'config_builders/common'
 require_relative 'config_builders/periodic_gauge'
+require_relative 'config_builders/influx'
