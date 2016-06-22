@@ -17,6 +17,10 @@ require 'pry'
 require 'shoulda-matchers'
 require 'metrux'
 
+root = File.expand_path('../../', __FILE__)
+Dir[File.join(root, 'spec/support/**/*.rb')].each { |f| require f }
+
+
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec

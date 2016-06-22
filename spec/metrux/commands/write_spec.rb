@@ -1,4 +1,4 @@
-describe Metrux::Commands::Write do
+describe Metrux::Commands::Write, type: :command do
   subject(:command) { described_class.new(config, connection) }
 
   let(:config) { Metrux::Configuration.new }
@@ -12,21 +12,10 @@ describe Metrux::Commands::Write do
     let(:key) { 'my-key' }
     let(:data) { 42 }
 
-    let(:host) { Socket.gethostname }
-    let(:default_tags) { { hostname: host, uniq: uniq, app_name: app_name } }
-    let(:app_name) { config.app_name }
-    let(:uniq) { 'uniq-random-id' }
-    let(:now) { Time.new(2016, 1, 1) }
-    let(:now_timestamp) { now.utc.to_i }
-
     let(:expected_tags) { default_tags }
+
     let(:expected_data) do
       { values: { value: data }, tags: expected_tags, timestamp: now_timestamp }
-    end
-
-    before do
-      allow(SecureRandom).to receive(:hex).and_return(uniq)
-      allow(Time).to receive(:now).and_return(now)
     end
 
     it { is_expected.to be(true) }
