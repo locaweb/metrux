@@ -1,6 +1,7 @@
 require 'influxdb'
 require 'active_support/core_ext/hash'
 require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/string/filters'
 require 'securerandom'
 require 'yaml'
 require 'metrux/version'
