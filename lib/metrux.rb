@@ -6,6 +6,7 @@ require 'metrux/version'
 require 'metrux/loggable'
 require 'metrux/configuration'
 require 'metrux/config_builders'
+require 'metrux/connections'
 
 module Metrux
   class << self
