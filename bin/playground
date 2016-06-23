@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+ENV['METRUX_ACTIVE'] =  'true'
+ENV['METRUX_LOG_LEVEL'] = 'debug'
+
+require "bundler/setup"
+require "metrux"
+
+puts 'Starting playground...'
+puts "Ctrl+C to stop\n\n"
+
+Metrux.periodic_gauge('threads_count') { Thread.list.count }
+Metrux.periodic_gauge(
+  'threads_count', tags: { type: :domain }
+) { Thread.list.count }
+
+timer = Proc.new { sleep(5); Metrux.timer('sleep') { sleep(rand + rand(2)); } }
+error = Proc.new do
+  sleep(5)
+  Metrux.notice_error(
+    [StandardError, RuntimeError, ArgumentError, Exception].sample.new
+  )
+end
+meter = Proc.new { sleep(rand + rand(5)); Metrux.meter('sleep') }
+gauge = Proc.new { sleep(5); Metrux.gauge('rand') { rand(200) } }
+
+[
+  Thread.new { loop { timer.call } },
+  Thread.new { loop { error.call } },
+  Thread.new { loop { meter.call } },
+  Thread.new { loop { gauge.call } }
+].each(&:join)
