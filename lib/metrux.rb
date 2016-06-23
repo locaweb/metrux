@@ -16,6 +16,17 @@ require 'metrux/commands'
 
 module Metrux
   class << self
-    attr_reader :logger
+    extend Forwardable
+    attr_reader :config, :client
+
+    def_delegators(:client, *Client::AVAILABLE_COMMANDS)
+    def_delegator :config, :logger
+
+    def setup(config = nil)
+      @config = config || Configuration.new
+      @client = Client.new(@config)
+    end
   end
 end
+
+Metrux.setup
