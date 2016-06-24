@@ -1,3 +1,7 @@
+# 0.2.0
+
+- Load and parse configuration file with ERB templating
+
 # 0.1.0
 
 - First release
