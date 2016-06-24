@@ -22,6 +22,26 @@ describe Metrux::Configuration do
       end
     end
 
+    context 'when the configuration file contains ERB templating' do
+      let(:config_path) { 'spec/support/config/erb_templating.yml' }
+
+      before { ENV['SOMETHING'] = '43' }
+      after { ENV['SOMETHING'] = nil }
+
+      it { is_expected.to be_a(Metrux::Configuration) }
+
+      context 'when the template has an evaluation error' do
+        before { ENV['SOMETHING'] = nil }
+
+        it do
+          expect { init }.to raise_error(
+            Metrux::ConfigBuilders::Yaml::FileLoadError,
+            'KeyError: key not found: "SOMETHING"'
+          )
+        end
+      end
+    end
+
     context 'when there is not any configuration for a specific environment' do
       before { ENV['RAILS_ENV'] = '404_environment' }
       after { ENV['RAILS_ENV'] = 'test' }

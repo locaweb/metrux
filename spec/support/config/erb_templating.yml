@@ -1,0 +1,94 @@
+default: &defaults
+  active: true
+
+  periodic_gauge_interval: <%= ENV.fetch('SOMETHING') %>
+
+  log_file: 'log/metrux.log'
+  log_level: 'info' # default: info
+
+  influx_host: 'host'
+  influx_port: 80
+  influx_database: 'dabase'
+  influx_username: 'user'
+  influx_password: 'secret'
+  influx_async: true
+
+development:
+  <<: *defaults
+  app_name: "Test app (Dev)"
+
+without_periodic_gauge_interval:
+  app_name: "Test app (Without Periodic Gauge Interval Test)"
+  active: true
+
+  log_file: 'log/metrux.log'
+  log_level: 'info' # default: info
+
+  influx_host: 'host'
+  influx_port: 80
+  influx_database: 'dabase'
+  influx_username: 'user'
+  influx_password: 'secret'
+  influx_async: true
+
+without_app_name:
+  active: true
+
+  periodic_gauge_interval: 42
+
+  log_file: 'log/metrux.log'
+  log_level: 'info' # default: info
+
+  influx_host: 'host'
+  influx_port: 80
+  influx_database: 'dabase'
+  influx_username: 'user'
+  influx_password: 'secret'
+  influx_async: true
+
+without_influx:
+  app_name: "Test app (Without Influx Test)"
+  active: true
+
+  periodic_gauge_interval: 42
+
+  log_file: 'log/metrux.log'
+  log_level: 'info' # default: info
+
+without_active:
+  app_name: "Test app (Without Influx Test)"
+
+  periodic_gauge_interval: 42
+
+  log_file: 'log/metrux.log'
+  log_level: 'info' # default: info
+
+  influx_host: 'host'
+  influx_port: 80
+  influx_database: 'dabase'
+  influx_username: 'user'
+  influx_password: 'secret'
+  influx_async: true
+
+without_log_file:
+  app_name: "Test app (Without Log File Test)"
+  active: true
+
+  periodic_gauge_interval: 42
+
+  log_level: 'info' # default: info
+
+  influx_host: 'host'
+  influx_port: 80
+  influx_database: 'dabase'
+  influx_username: 'user'
+  influx_password: 'secret'
+  influx_async: true
+
+rack_env_test:
+  <<: *defaults
+  app_name: "Test app (Rack Env Test)"
+
+test:
+  <<: *defaults
+  app_name: "Test app (Test)"

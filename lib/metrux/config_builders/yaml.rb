@@ -18,7 +18,9 @@ module Metrux
       attr_reader :config_path, :env
 
       def load_file(config_path)
-        YAML.load_file(config_path)
+        content = File.read(config_path)
+        template = ERB.new(content)
+        YAML.load(template.result)
       rescue => e
         raise(FileLoadError, "#{e.class}: #{e.message}")
       end
