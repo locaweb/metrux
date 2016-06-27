@@ -311,7 +311,13 @@ time                 a  app_name       b  error           hostname       message
 
 ### Plugins
 
-It's possible to register your own plugins on `Metrux`:
+* `Metrux::Plugins::Thread` - Register a periodic gauge to count the amount of
+  running threads. See [Metrux::Plugins::Thread](lib/metrux/plugins/thread.rb)
+
+#### Registering
+
+You need to register the plugins to have them working. It's also possible to
+register your own plugins on `Metrux`:
 
 ```ruby
 module Metrux

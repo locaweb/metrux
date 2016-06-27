@@ -15,6 +15,7 @@ require 'metrux/configuration'
 require 'metrux/config_builders'
 require 'metrux/connections'
 require 'metrux/commands'
+require 'metrux/plugins'
 require 'metrux/plugin_register'
 
 module Metrux
