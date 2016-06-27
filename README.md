@@ -2,6 +2,21 @@
 
 An instrumentation library which persists the metrics on InfluxDB.
 
+## Summary
+
+1. [Installation](#installation)
+2. [Configuration](#configuration)
+  1. [Configuration Keys](#configuration-keys)
+3. [Usage](#usage)
+    1. [Write](#write)
+    2. [Meter](#meter)
+    3. [Gauge](#gauge)
+    4. [Periodic Gauge](#periodic-gauge)
+    5. [Timer](#timer)
+    6. [Notice Error](#notice-error)
+    7. [Plugins](#plugins)
+        1. [Registering](#registering)
+
 ## Installation
 
 Add this line to your application's Gemfile:
