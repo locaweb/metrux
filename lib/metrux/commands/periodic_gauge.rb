@@ -16,7 +16,7 @@ module Metrux
 
       def execute(key, params = {})
         registry.add(key, params) { yield }
-        reporter.start if config.active?
+        reporter.start
 
         true
       end
