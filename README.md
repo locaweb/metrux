@@ -318,6 +318,8 @@ time                 a  app_name       b  error           hostname       message
 * `Metrux::Plugins::Process` - Register a periodic gauges to fetch the memory
   consumption (rss) of the current process. See
   [Metrux::Plugins::Process](lib/metrux/plugins/process.rb)
+* `Metrux::Plugins::Yarv` - Register some periodic gauges to fetch info from
+  Ruby's VM. See [Metrux::Plugins::Yarv](lib/metrux/plugins/yarv.rb)
 
 #### Registering
 
