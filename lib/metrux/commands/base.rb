@@ -3,8 +3,9 @@ module Metrux
     class Base
       include Loggable
 
-      HOST = Socket.gethostname.freeze
-      DEFAULT_TAGS = { hostname: HOST }.freeze
+      DEFAULT_TAGS = {
+        hostname: Metrux::HOST, program_name: Metrux::PROGRAM_NAME
+      }.freeze
 
       def initialize(config, connection)
         @config = config

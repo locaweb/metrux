@@ -1,7 +1,13 @@
 shared_context 'for commands', type: :command do
   let(:host) { Socket.gethostname }
-  let(:default_tags) { { hostname: host, uniq: uniq, app_name: app_name } }
+  let(:default_tags) do
+    {
+      hostname: host, uniq: uniq, app_name: app_name,
+      program_name: program_name
+    }
+  end
 
+  let(:program_name) { 'rspec' }
   let(:app_name) { config.app_name }
   let(:uniq) { 'uniq-random-id' }
   let(:now) { Time.new(2016, 1, 1) }

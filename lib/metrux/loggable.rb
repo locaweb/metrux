@@ -3,13 +3,7 @@ module Metrux
     PREFIX_PROGRAM_NAME = 'metrux'.freeze
     private_constant :PREFIX_PROGRAM_NAME
 
-    PROGRAM_NAME = $PROGRAM_NAME
-                   .split('/').last
-                   .split(' ').first.gsub(/\W/, '')
-                   .freeze
-    private_constant :PROGRAM_NAME
-
-    LOG_PROGRAM_NAME = "#{PREFIX_PROGRAM_NAME}/#{PROGRAM_NAME}".freeze
+    LOG_PROGRAM_NAME = "#{PREFIX_PROGRAM_NAME}/#{Metrux::PROGRAM_NAME}".freeze
     private_constant :LOG_PROGRAM_NAME
 
     private
