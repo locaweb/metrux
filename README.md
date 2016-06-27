@@ -313,6 +313,8 @@ time                 a  app_name       b  error           hostname       message
 
 * `Metrux::Plugins::Thread` - Register a periodic gauge to count the amount of
   running threads. See [Metrux::Plugins::Thread](lib/metrux/plugins/thread.rb)
+* `Metrux::Plugins::Gc` - Register some periodic gauges to fetch info from
+  Ruby's GC. See [Metrux::Plugins::Gc](lib/metrux/plugins/gc.rb)
 
 #### Registering
 
