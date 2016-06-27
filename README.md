@@ -309,6 +309,39 @@ time                 a  app_name       b  error           hostname       message
 1466608927000000000  1  Your appname   0  ArgumentError   YOURHOSTNAME   Some message    a033161c  "http://domain.tld/path"  1
 ```
 
+### Plugins
+
+It's possible to register your own plugins on `Metrux`:
+
+```ruby
+module Metrux
+  module Plugins
+    class MyAwesomePlugin
+      def initialize(config, options); @config, @options = config, options; end
+
+      def call
+        Metrux.periodic_gauge('threads_count', @options) { Thread.list.count }
+      end
+    end
+  end
+end
+
+plugin = Metrux::Plugins::MyAwesomePlugin
+options = { my: { plugin: :options } }
+
+Metrux.register(plugin, options) # => true
+```
+
+Or you can use a `Proc` instead of a class:
+
+```ruby
+options = { my: { plugin: :options } }
+
+Metrux.register(options) do |config, options|
+  Metrux.periodic_gauge('threads_count', options) { Thread.list.count }
+end # => true
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

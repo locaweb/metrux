@@ -40,6 +40,21 @@ describe Metrux do
         .to receive(:new)
         .and_return(configuration)
 
+      expect(Metrux::PluginRegister)
+        .to receive(:new)
+        .with(configuration)
+        .and_call_original
+
+      setup
+    end
+
+    it do
+      configuration = Metrux::Configuration.new
+
+      allow(Metrux::Configuration)
+        .to receive(:new)
+        .and_return(configuration)
+
       expect { setup }
         .to change { described_class.config }
         .to(configuration)
@@ -56,9 +71,29 @@ describe Metrux do
         .to change { described_class.client }
         .to(client)
     end
+
+    it do
+      plugin_register = instance_double(Metrux::PluginRegister)
+
+      allow(Metrux::PluginRegister)
+        .to receive(:new)
+        .and_return(plugin_register)
+
+      expect { setup }
+        .to change { described_class.plugin_register }
+        .to(plugin_register)
+    end
   end
 
   available_commands.each do |cmd|
     describe("#{cmd}") { it { should delegate_method(cmd).to(:client) } }
+  end
+
+  describe '#plugins' do
+    it { should delegate_method(:plugins).to(:plugin_register) }
+  end
+
+  describe '#register' do
+    it { should delegate_method(:register).to(:plugin_register) }
   end
 end
