@@ -1,3 +1,9 @@
+# 0.4.0
+
+- Add `env` tag on writing
+- Add `app_name` prefix on measurement key
+- Remove prefix option from plugins
+
 # 0.3.0
 
 - Add `program_name` tag on writing
