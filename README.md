@@ -62,8 +62,8 @@ Before you start sending your metrics to InfluxDB, is very important that you
 read [InfluxDB Schema Design](https://docs.influxdata.com/influxdb/v0.13/concepts/schema_and_data_layout/#encouraged-schema-design)
 for a better understanding of how to use `tags` and `fields`.
 
-All writes will automatically include the tags `app_name` and `hostname`, unless
-you pass another value.
+All writes will automatically include the tags `app_name`, `hostname`, `env` and
+`program_name` unless you pass another value.
 
 ### Write
 

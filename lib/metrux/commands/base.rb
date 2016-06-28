@@ -1,6 +1,7 @@
 module Metrux
   module Commands
     class Base
+      extend Forwardable
       include Loggable
 
       DEFAULT_TAGS = {
@@ -9,14 +10,15 @@ module Metrux
 
       def initialize(config, connection)
         @config = config
-        @app_name = config.app_name
         @connection = connection
         @logger = config.logger
       end
 
       protected
 
-      attr_reader :app_name, :connection, :logger, :config
+      attr_reader :connection, :logger, :config
+
+      def_delegators :config, :app_name, :env
 
       def write(measurement, data, options = {})
         precision = options[:precision].presence
@@ -44,7 +46,9 @@ module Metrux
 
       def default_data
         {
-          tags: DEFAULT_TAGS.merge(app_name: app_name, uniq: uniq),
+          tags: DEFAULT_TAGS.merge(
+            app_name: app_name, uniq: uniq, env: env
+          ),
           timestamp: Time.now.utc.to_i
         }
       end

@@ -35,12 +35,10 @@ default: &defaults
 
 development:
   <<: *defaults
-  # app_name: "My application (Dev)"
   active: false
 
 test:
   <<: *defaults
-  # app_name: "My application (Test)"
   log_file: '/dev/null'
   active: false
 
