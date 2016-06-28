@@ -61,20 +61,6 @@ describe Metrux::Plugins::Yarv do
 
           call
         end
-
-        context 'when there is a prefix option' do
-          let(:prefix) { 'SomePrefix' }
-          let(:options) { { prefix: prefix, tags: { some: 'tag' } } }
-          let(:expected_key) { "#{prefix}/#{key}" }
-
-          it do
-            expect(Metrux)
-              .to receive(:periodic_gauge)
-              .with(expected_key, options)
-
-            call
-          end
-        end
       end
     end
   end

@@ -32,19 +32,5 @@ describe Metrux::Plugins::Thread do
 
       expect(@result).to be(thread_list.count)
     end
-
-    context 'when there is a prefix option' do
-      let(:prefix) { 'SomePrefix' }
-      let(:options) { { prefix: prefix, tags: { some: 'tag' } } }
-      let(:expected_key) { "#{prefix}/Thread.list.count" }
-
-      it do
-        expect(Metrux)
-          .to receive(:periodic_gauge)
-          .with(expected_key, options)
-
-        call
-      end
-    end
   end
 end

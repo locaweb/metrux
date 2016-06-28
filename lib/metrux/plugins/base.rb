@@ -10,13 +10,8 @@ module Metrux
 
       attr_reader :config, :options
 
-      def prefix
-        prefix = options[:prefix]
-        prefix.presence && "#{prefix}/"
-      end
-
       def register(key, &block)
-        Metrux.periodic_gauge("#{prefix}#{key}", options, &block)
+        Metrux.periodic_gauge(key, options, &block)
       end
     end
   end
