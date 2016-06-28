@@ -3,7 +3,7 @@ default: &defaults
 
   periodic_gauge_interval: <%= ENV.fetch('SOMETHING') %>
 
-  log_file: 'log/metrux.log'
+  log_file: 'metrux.log'
   log_level: 'info' # default: info
 
   influx_host: 'host'
@@ -21,7 +21,7 @@ without_periodic_gauge_interval:
   app_name: "Test app (Without Periodic Gauge Interval Test)"
   active: true
 
-  log_file: 'log/metrux.log'
+  log_file: 'metrux.log'
   log_level: 'info' # default: info
 
   influx_host: 'host'
@@ -36,7 +36,7 @@ without_app_name:
 
   periodic_gauge_interval: 42
 
-  log_file: 'log/metrux.log'
+  log_file: 'metrux.log'
   log_level: 'info' # default: info
 
   influx_host: 'host'
@@ -52,7 +52,7 @@ without_influx:
 
   periodic_gauge_interval: 42
 
-  log_file: 'log/metrux.log'
+  log_file: 'metrux.log'
   log_level: 'info' # default: info
 
 without_active:
@@ -60,7 +60,7 @@ without_active:
 
   periodic_gauge_interval: 42
 
-  log_file: 'log/metrux.log'
+  log_file: 'metrux.log'
   log_level: 'info' # default: info
 
   influx_host: 'host'

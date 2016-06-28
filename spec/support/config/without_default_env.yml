@@ -3,7 +3,7 @@ default: &defaults
 
   periodic_gauge_interval: 42
 
-  log_file: 'log/metrux.log'
+  log_file: 'metrux.log'
   log_level: 'info' # default: info
 
   influx_host: 'host'

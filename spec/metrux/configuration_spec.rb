@@ -272,7 +272,7 @@ describe Metrux::Configuration do
     it { expect(log_file).to eq(expected_log_file) }
 
     context 'when the env var is set' do
-      let(:log_file_from_env) { 'log/test.log' }
+      let(:log_file_from_env) { 'test.log' }
 
       before do
         ENV['METRUX_LOG_FILE'] = log_file_from_env
