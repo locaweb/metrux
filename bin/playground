@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-ENV['METRUX_ACTIVE'] =  'true'
+ENV['METRUX_ACTIVE'] = 'true'
+ENV['METRUX_APP_NAME'] = 'My application'
 ENV['METRUX_LOG_LEVEL'] = 'debug'
 
 require "bundler/setup"
