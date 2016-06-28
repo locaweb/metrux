@@ -1,5 +1,7 @@
 module Metrux
   class PluginRegister
+    include Loggable
+
     # Registered plugins
     attr_reader :plugins
 
@@ -37,6 +39,8 @@ module Metrux
                else
                  klass.new(config, options)
                end
+
+      log("Registering plugin #{plugin.class}")
 
       plugin.call
 
