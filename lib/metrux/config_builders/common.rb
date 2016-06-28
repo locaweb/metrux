@@ -29,7 +29,10 @@ module Metrux
       end
 
       def prefix
-        app_name.underscore
+        app_name
+          .underscore
+          .parameterize
+          .gsub(/(\s+|-+)/, '_')
       end
     end
   end

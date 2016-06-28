@@ -152,13 +152,13 @@ describe Metrux::Configuration do
     subject { config.prefix }
 
     let(:app_name) { config_from_yaml.fetch(:app_name) }
-    let(:prefix) { app_name.underscore }
+    let(:prefix) { 'test_app_test' }
 
     it { is_expected.to eq(prefix) }
 
     context 'when the env var is set' do
-      let(:app_name_from_env) { 'Awesome app' }
-      let(:prefix_from_env) { app_name_from_env.underscore }
+      let(:app_name_from_env) { 'Caçamba Panel_awesome (TesteLorem)' }
+      let(:prefix_from_env) { 'cacamba_panel_awesome_teste_lorem' }
 
       before { ENV['METRUX_APP_NAME'] = app_name_from_env }
 
