@@ -65,6 +65,9 @@ for a better understanding of how to use `tags` and `fields`.
 All writes will automatically include the tags `app_name`, `hostname`, `env` and
 `program_name` unless you pass another value.
 
+All measurement keys will have the prefix of the app name
+(`app_name.parameterize.underscore`).
+
 ### Write
 
 Writes a point.
@@ -83,7 +86,7 @@ Metrux.write(key, data, options)
 
 Result:
 ```
-name: my_awesome_key
+name: app_name/my_awesome_key
 --------------------
 time                    app_name      hostname       something       uniq      value
 1466604892000000000     Your appname  YOURHOSTNAME   a-string-value  ebb28331  1
@@ -103,7 +106,7 @@ Metrux.write(key, data, options)
 
 Result:
 ```
-name: my_awesome_key
+name: app_name/my_awesome_key
 --------------------
 time                    app_name      hostname       another_field  something       uniq      value
 1466604892000000000     Your appname  YOURHOSTNAME   1              a-string-value  ebb28331  2
@@ -126,7 +129,7 @@ Metrux.meter(key, options)
 
 Result:
 ```
-name: meters/my_meter
+name: app_name/meters/my_meter
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  4ce9827e        1
@@ -150,7 +153,7 @@ Metrux.meter(key, options)
 
 Result:
 ```
-name: meters/my_meter
+name: app_name/meters/my_meter
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  9930ea84        5
@@ -175,7 +178,7 @@ Metrux.gauge(key, options) { 40 }
 
 Result:
 ```
-name: gauges/my_gauge
+name: app_name/gauges/my_gauge
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        40
@@ -202,7 +205,7 @@ Metrux.gauge(key, options)
 
 Result:
 ```
-name: gauges/my_gauge
+name: app_name/gauges/my_gauge
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  75538b33        42
@@ -231,7 +234,7 @@ Metrux.periodic_gauge(key, options) { Thread.list.count }
 
 Result after having passed (interval * 1) seconds:
 ```
-name: gauges/my_gauge
+name: app_name/gauges/my_gauge
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466609741000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        6
@@ -239,7 +242,7 @@ time                    app_name      hostname          something       uniq    
 
 Result after having passed (interval * 2) seconds:
 ```
-name: gauges/my_gauge
+name: app_name/gauges/my_gauge
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466609741000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        6
@@ -267,7 +270,7 @@ Metrux.timer(key, options) { sleep(0.45); 40 }
 
 Result:
 ```
-name: timers/my_timer
+name: app_name/timers/my_timer
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        455
@@ -291,7 +294,7 @@ Metrux.timer(key, options)
 
 Result:
 ```
-name: timers/my_timer
+name: app_name/timers/my_timer
 ---------------------
 time                    app_name      hostname          something       uniq            value
 1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        1342
@@ -318,7 +321,7 @@ do_something(1, 0)
 
 Result:
 ```
-name: meters/errors
+name: app_name/meters/errors
 ---------------------
 time                 a  app_name       b  error           hostname       message         uniq      uri                       value
 1466608927000000000  1  Your appname   0  ArgumentError   YOURHOSTNAME   Some message    a033161c  "http://domain.tld/path"  1

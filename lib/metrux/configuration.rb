@@ -3,7 +3,8 @@ module Metrux
     DEFAULT_ENVIRONMENT = 'development'.freeze
 
     attr_reader(
-      :env, :periodic_gauge_interval, :app_name, :logger, :active, :influx
+      :env, :periodic_gauge_interval, :app_name, :prefix, :logger, :active,
+      :influx
     )
 
     alias active? active
@@ -24,6 +25,7 @@ module Metrux
       @env = fetch_env.freeze
       @yaml = fetch_yaml
       @app_name = fetch_app_name
+      @prefix = fetch_prefix
       @active = fetch_active
       @periodic_gauge_interval = fetch_periodic_gauge_interval
       @influx = fetch_influx
@@ -44,6 +46,10 @@ module Metrux
 
     def fetch_app_name
       commons[:app_name].freeze
+    end
+
+    def fetch_prefix
+      commons[:prefix].freeze
     end
 
     def fetch_active

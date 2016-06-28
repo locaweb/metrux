@@ -15,6 +15,8 @@ describe Metrux::Commands::PeriodicGauge::Agent do
   describe '#start' do
     subject(:start) { agent.start }
 
+    let(:prefix) { config.prefix }
+
     let(:key_1) { 'my_key_1' }
     let(:key_2) { 'my_key_2' }
     let(:key_3) { 'my_key_3' }
@@ -36,9 +38,9 @@ describe Metrux::Commands::PeriodicGauge::Agent do
 
     let(:expected_tags) { default_tags.merge(tags) }
 
-    let(:expected_key_1) { "gauges/#{key_1}" }
-    let(:expected_key_2) { "gauges/#{key_2}" }
-    let(:expected_key_3) { "gauges/#{key_3}" }
+    let(:expected_key_1) { "#{prefix}/gauges/#{key_1}" }
+    let(:expected_key_2) { "#{prefix}/gauges/#{key_2}" }
+    let(:expected_key_3) { "#{prefix}/gauges/#{key_3}" }
 
     let(:expected_data_1) do
       { values: { value: result_1 }, tags: hash_including(tags_1) }

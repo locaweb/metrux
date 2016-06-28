@@ -11,7 +11,7 @@ module Metrux
       end
 
       def build
-        { app_name: app_name, active: active }
+        { app_name: app_name, active: active, prefix: prefix }
       end
 
       private
@@ -26,6 +26,10 @@ module Metrux
         return ENV[ACTIVE_KEY] == 'true' if ENV[ACTIVE_KEY].present?
 
         yaml[:active].presence || false
+      end
+
+      def prefix
+        app_name.parameterize.underscore
       end
     end
   end

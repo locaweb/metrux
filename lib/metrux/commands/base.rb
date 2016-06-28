@@ -12,11 +12,12 @@ module Metrux
         @config = config
         @connection = connection
         @logger = config.logger
+        @prefix = config.app_name.parameterize.underscore.freeze
       end
 
       protected
 
-      attr_reader :connection, :logger, :config
+      attr_reader :connection, :logger, :config, :prefix
 
       def_delegators :config, :app_name, :env
 
@@ -27,7 +28,8 @@ module Metrux
         log("Writing #{measurement}")
 
         connection.write_point(
-          measurement, default_data.deep_merge(data), precision, retention
+          "#{prefix}/#{measurement}", default_data.deep_merge(data), precision,
+          retention
         )
 
         true

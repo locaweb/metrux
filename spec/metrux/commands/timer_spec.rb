@@ -11,12 +11,13 @@ describe Metrux::Commands::Timer, type: :command do
 
     let(:key) { 'my-key' }
     let(:result) { 42 }
+    let(:prefix) { config.prefix }
 
     let(:started_at) { Time.new(2015, 1, 1, 0, 0, 0) }
     let(:finished_at) { Time.new(2015, 1, 1, 0, 0, 1.1235) }
     let(:duration) { 1124 }
 
-    let(:expected_key) { "timers/#{key}" }
+    let(:expected_key) { "#{prefix}/timers/#{key}" }
     let(:expected_tags) { default_tags }
     let(:expected_data) do
       {

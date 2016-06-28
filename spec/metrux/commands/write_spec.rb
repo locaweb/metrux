@@ -13,6 +13,7 @@ describe Metrux::Commands::Write, type: :command do
     let(:data) { 42 }
 
     let(:expected_tags) { default_tags }
+    let(:expected_key) { "#{config.prefix}/#{key}" }
 
     let(:expected_data) do
       { values: { value: data }, tags: expected_tags, timestamp: now_timestamp }
@@ -23,7 +24,7 @@ describe Metrux::Commands::Write, type: :command do
     it do
       expect(connection)
         .to receive(:write_point)
-        .with(key, expected_data, nil, nil)
+        .with(expected_key, expected_data, nil, nil)
 
       execute
     end
@@ -39,7 +40,7 @@ describe Metrux::Commands::Write, type: :command do
       it do
         expect(connection)
           .to receive(:write_point)
-          .with(key, expected_data, nil, nil)
+          .with(expected_key, expected_data, nil, nil)
 
         execute
       end
@@ -58,7 +59,7 @@ describe Metrux::Commands::Write, type: :command do
       it do
         expect(connection)
           .to receive(:write_point)
-          .with(key, expected_data, 's', '1h.cpu')
+          .with(expected_key, expected_data, 's', '1h.cpu')
 
         execute
       end

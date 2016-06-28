@@ -11,8 +11,9 @@ describe Metrux::Commands::Gauge, type: :command do
 
     let(:key) { 'my-key' }
     let(:result) { 42 }
+    let(:prefix) { config.prefix }
 
-    let(:expected_key) { "gauges/#{key}" }
+    let(:expected_key) { "#{prefix}/gauges/#{key}" }
     let(:expected_tags) { default_tags }
     let(:expected_data) do
       {

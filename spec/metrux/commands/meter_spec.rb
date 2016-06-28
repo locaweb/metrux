@@ -11,8 +11,9 @@ describe Metrux::Commands::Meter, type: :command do
 
     let(:key) { 'my-key' }
     let(:data) { 1 }
+    let(:prefix) { config.prefix }
 
-    let(:expected_key) { "meters/#{key}" }
+    let(:expected_key) { "#{prefix}/meters/#{key}" }
     let(:expected_tags) { default_tags }
     let(:expected_data) do
       {
