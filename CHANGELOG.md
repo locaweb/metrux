@@ -1,3 +1,8 @@
+# 0.5.0
+
+- Fix prefix fetching on base command
+- Add puma worker number on program name
+
 # 0.4.1
 
 - Add logging on plugin registering
