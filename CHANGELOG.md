@@ -1,3 +1,7 @@
+# 0.4.1
+
+- Add logging on plugin registering
+
 # 0.4.0
 
 - Add `env` tag on writing
