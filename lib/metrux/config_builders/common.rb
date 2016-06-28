@@ -29,7 +29,7 @@ module Metrux
       end
 
       def prefix
-        app_name.parameterize.underscore
+        app_name.underscore
       end
     end
   end

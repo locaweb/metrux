@@ -66,7 +66,7 @@ All writes will automatically include the tags `app_name`, `hostname`, `env` and
 `program_name` unless you pass another value.
 
 All measurement keys will have the prefix of the app name
-(`app_name.parameterize.underscore`).
+(`app_name.underscore`).
 
 ### Write
 

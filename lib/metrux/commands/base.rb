@@ -12,7 +12,7 @@ module Metrux
         @config = config
         @connection = connection
         @logger = config.logger
-        @prefix = config.app_name.parameterize.underscore.freeze
+        @prefix = config.prefix
       end
 
       protected
