@@ -1,3 +1,7 @@
+# 0.6.0
+
+- Remove spaces and non-ascii chars from prefix
+
 # 0.5.0
 
 - Fix prefix fetching on base command
