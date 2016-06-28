@@ -10,6 +10,11 @@ require "metrux"
 puts 'Starting playground...'
 puts "Ctrl+C to stop\n\n"
 
+Metrux.register(Metrux::Plugins::Thread)
+Metrux.register(Metrux::Plugins::Gc)
+Metrux.register(Metrux::Plugins::Process)
+Metrux.register(Metrux::Plugins::Yarv)
+
 Metrux.periodic_gauge('threads_count') { Thread.list.count }
 Metrux.periodic_gauge(
   'threads_count', tags: { type: :domain }
