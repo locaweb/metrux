@@ -52,13 +52,13 @@ describe Metrux::Commands::PeriodicGauge, type: :command do
 
     let(:interval) { config.periodic_gauge_interval }
 
-    let(:fake_interval) { 0.25 }
+    let(:fake_interval) { 0.1 }
     let(:wait_execution) do
       -> (times = 1) do
         tries = 0
         loop do
-          sleep(0.1) && tries =+ 1
-          break if @counter >= times || tries >= 10
+          sleep(0.01) && tries += 1
+          break if @counter >= times || tries >= 500
         end
       end
     end
