@@ -1,3 +1,7 @@
+# 0.6.1
+
+- Fix test issues
+
 # 0.6.0
 
 - Remove spaces and non-ascii chars from prefix
