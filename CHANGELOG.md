@@ -1,3 +1,8 @@
+# 0.6.2
+
+- Setup metrux's configuration lazily
+- Fix async specs
+
 # 0.6.1
 
 - Fix test issues
