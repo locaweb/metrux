@@ -1,3 +1,7 @@
+# 0.6.3
+
+- Remove i18n issues due to `String#parameterize`
+
 # 0.6.2
 
 - Setup metrux's configuration lazily
