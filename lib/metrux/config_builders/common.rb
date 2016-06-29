@@ -29,10 +29,24 @@ module Metrux
       end
 
       def prefix
-        app_name
-          .underscore
-          .parameterize
-          .gsub(/(\s+|-+)/, '_')
+        without_accent(app_name.underscore)
+          .gsub(/\s/, '_') # {\s,_}
+          .gsub(/\W/, '') # non-chars
+      end
+
+      def without_accent(text)
+        # String#parameterize or ActiveSupport::Inflector.transliterate
+        # mess with i18n
+        #
+        # See https://github.com/rails/rails/issues/21939
+        text.tr(
+          'ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħ' \
+          'ÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕ' \
+          'ŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž',
+          'AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHh' \
+          'IIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRr' \
+          'RrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz'
+        )
       end
     end
   end
