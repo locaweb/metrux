@@ -21,7 +21,10 @@ require 'metrux/plugin_register'
 module Metrux
   class << self
     extend Forwardable
-    attr_reader :config, :client, :plugin_register
+
+    attr_reader :configured
+
+    alias configured? configured
 
     def_delegators(:client, *Client::AVAILABLE_COMMANDS)
     def_delegator :config, :logger
@@ -32,8 +35,26 @@ module Metrux
       @config = config || Configuration.new
       @client = Client.new(@config)
       @plugin_register = PluginRegister.new(@config)
+      @configured = true
+    end
+
+    def client
+      lazy_setup { @client }
+    end
+
+    def config
+      lazy_setup { @config }
+    end
+
+    def plugin_register
+      lazy_setup { @plugin_register }
+    end
+
+    private
+
+    def lazy_setup
+      setup unless configured?
+      yield
     end
   end
 end
-
-Metrux.setup

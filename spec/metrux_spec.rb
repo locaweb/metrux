@@ -10,6 +10,14 @@ describe Metrux do
   describe '.setup' do
     subject(:setup) { described_class.setup }
 
+    context do
+      before { Metrux.instance_variable_set('@configured', nil) }
+
+      it do
+        expect { setup }.to change { Metrux.configured? }.from(nil).to(true)
+      end
+    end
+
     it do
       expect(Metrux::Configuration)
         .to receive(:new)
@@ -95,5 +103,65 @@ describe Metrux do
 
   describe '#register' do
     it { should delegate_method(:register).to(:plugin_register) }
+  end
+
+  describe '#client' do
+    subject(:reader) { described_class.client }
+
+    let(:configured?) { true }
+
+    before do
+      allow(Metrux).to receive(:configured?).and_return(configured?)
+    end
+
+    it { is_expected.to be_a(Metrux::Client) }
+
+    it do
+      expect(Metrux).not_to receive(:setup)
+
+      reader
+    end
+
+    context 'when it is not configured yet' do
+      let(:configured?) { false }
+
+      it { is_expected.to be_a(Metrux::Client) }
+
+      it do
+        expect(Metrux).to receive(:setup)
+
+        reader
+      end
+    end
+  end
+
+  describe '#plugin_register' do
+    subject(:reader) { described_class.plugin_register }
+
+    let(:configured?) { true }
+
+    before do
+      allow(Metrux).to receive(:configured?).and_return(configured?)
+    end
+
+    it { is_expected.to be_a(Metrux::PluginRegister) }
+
+    it do
+      expect(Metrux).not_to receive(:setup)
+
+      reader
+    end
+
+    context 'when it is not configured yet' do
+      let(:configured?) { false }
+
+      it { is_expected.to be_a(Metrux::PluginRegister) }
+
+      it do
+        expect(Metrux).to receive(:setup)
+
+        reader
+      end
+    end
   end
 end
