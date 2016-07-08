@@ -1,3 +1,13 @@
+# 0.7.0
+
+**We encourage that you use this version or higher to avoid big database indexes
+issues**
+
+- Remove `uniq` tag on writing
+  - To ensure that we can write "duplicate" points, we are switching the tag
+    `uniq` with the timestamp in nanoseconds because it was increasing the
+    indexes of all databases, letting them very slow.
+
 # 0.6.3
 
 - Remove i18n issues due to `String#parameterize`
