@@ -49,15 +49,10 @@ module Metrux
       def default_data
         {
           tags: DEFAULT_TAGS.merge(
-            app_name: app_name, uniq: uniq, env: env
+            app_name: app_name, env: env
           ),
-          timestamp: Time.now.utc.to_i
+          timestamp: (Time.now.utc.to_f * 1_000_000_000).to_i
         }
-      end
-
-      # https://docs.influxdata.com/influxdb/v0.13/troubleshooting/frequently_encountered_issues/#writing-duplicate-points
-      def uniq
-        SecureRandom.hex(4)
       end
     end
   end

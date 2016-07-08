@@ -7,6 +7,7 @@ module Metrux
       USERNAME_KEY = 'METRUX_INFLUX_USERNAME'.freeze
       PASSWORD_KEY = 'METRUX_INFLUX_PASSWORD'.freeze
       ASYNC_KEY = 'METRUX_INFLUX_ASYNC'.freeze
+      DEFAULT_TIME_PRECISION = 'ns'.freeze
 
       ConfigNotFoundError = Class.new(ConfigurationError)
 
@@ -17,7 +18,8 @@ module Metrux
       def build
         {
           host: host, port: port, database: database, username: username,
-          password: password, async: async
+          password: password, async: async,
+          time_precision: DEFAULT_TIME_PRECISION
         }.freeze
       rescue KeyError => e
         raise(ConfigNotFoundError, "#{e.class}: #{e.message}")

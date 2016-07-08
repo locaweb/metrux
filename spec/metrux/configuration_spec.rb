@@ -222,7 +222,7 @@ describe Metrux::Configuration do
 
     let(:expected_influx) do
       config_from_yaml
-        .reduce({}) do |influx, (k, v)|
+        .reduce(time_precision: 'ns') do |influx, (k, v)|
           if k.start_with?('influx_')
             influx[k.gsub('influx_', '').to_sym] = v
           end

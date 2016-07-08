@@ -88,8 +88,8 @@ Result:
 ```
 name: app_name/my_awesome_key
 --------------------
-time                    app_name      hostname       something       uniq      value
-1466604892000000000     Your appname  YOURHOSTNAME   a-string-value  ebb28331  1
+time                    app_name      hostname       something       value
+1466604892000000000     Your appname  YOURHOSTNAME   a-string-value  1
 ```
 
 #### Multi value/field
@@ -108,8 +108,8 @@ Result:
 ```
 name: app_name/my_awesome_key
 --------------------
-time                    app_name      hostname       another_field  something       uniq      value
-1466604892000000000     Your appname  YOURHOSTNAME   1              a-string-value  ebb28331  2
+time                    app_name      hostname       another_field  something       value
+1466604892000000000     Your appname  YOURHOSTNAME   1              a-string-value  2
 ```
 
 ### Meter
@@ -131,8 +131,8 @@ Result:
 ```
 name: app_name/meters/my_meter
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  4ce9827e        1
+time                    app_name      hostname          something       value
+1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  1
 ```
 
 
@@ -155,8 +155,8 @@ Result:
 ```
 name: app_name/meters/my_meter
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  9930ea84        5
+time                    app_name      hostname          something       value
+1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  5
 ```
 
 ### Gauge
@@ -180,8 +180,8 @@ Result:
 ```
 name: app_name/gauges/my_gauge
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        40
+time                    app_name      hostname          something       value
+1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  40
 ```
 
 The rule for multi value/field is the same of [write](#write).
@@ -207,8 +207,8 @@ Result:
 ```
 name: app_name/gauges/my_gauge
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  75538b33        42
+time                    app_name      hostname          something       value
+1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  42
 ```
 
 The rule for multi value/field is the same of [write](#write).
@@ -236,17 +236,17 @@ Result after having passed (interval * 1) seconds:
 ```
 name: app_name/gauges/my_gauge
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466609741000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        6
+time                    app_name      hostname          something       value
+1466609741000000000     Your appname  YOURHOSTNAME      a-string-value  6
 ```
 
 Result after having passed (interval * 2) seconds:
 ```
 name: app_name/gauges/my_gauge
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466609741000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        6
-1466609746000000000     Your appname  YOURHOSTNAME      a-string-value  2eb7a01b        6
+time                    app_name      hostname          something       value
+1466609741000000000     Your appname  YOURHOSTNAME      a-string-value  6
+1466609746000000000     Your appname  YOURHOSTNAME      a-string-value  6
 ```
 
 The rule for multi value/field is the same of [write](#write).
@@ -272,8 +272,8 @@ Result:
 ```
 name: app_name/timers/my_timer
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        455
+time                    app_name      hostname          something       value
+1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  455
 ```
 
 #### Just save the duration of a previously calculated block
@@ -296,8 +296,8 @@ Result:
 ```
 name: app_name/timers/my_timer
 ---------------------
-time                    app_name      hostname          something       uniq            value
-1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  f0e6e7da        1342
+time                    app_name      hostname          something       value
+1466604892000000000     Your appname  YOURHOSTNAME      a-string-value  1342
 ```
 
 ### Notice error
@@ -323,8 +323,8 @@ Result:
 ```
 name: app_name/meters/errors
 ---------------------
-time                 a  app_name       b  error           hostname       message         uniq      uri                       value
-1466608927000000000  1  Your appname   0  ArgumentError   YOURHOSTNAME   Some message    a033161c  "http://domain.tld/path"  1
+time                 a  app_name       b  error           hostname       message       uri                       value
+1466608927000000000  1  Your appname   0  ArgumentError   YOURHOSTNAME   Some message  "http://domain.tld/path"  1
 ```
 
 ### Plugins
