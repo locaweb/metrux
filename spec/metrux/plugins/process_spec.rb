@@ -22,7 +22,7 @@ describe Metrux::Plugins::Process do
     let(:statm_content) { "74103 #{statm_rss} 1869 1 0 30688 0\n" }
     let(:host_os) { 'linux-gnu' }
 
-    let(:expected_key) { 'Process#rss' }
+    let(:expected_key) { 'process' }
 
     before do
       @result = nil
@@ -52,13 +52,13 @@ describe Metrux::Plugins::Process do
     it do
       allow(Metrux)
         .to receive(:periodic_gauge)
-        .with('Process#rss', anything) do |*_, &blk|
+        .with('process', anything) do |*_, &blk|
         @result = blk.call
       end
 
       call
 
-      expect(@result).to be(rss)
+      expect(@result).to eq(rss: rss)
     end
 
     it do
@@ -83,13 +83,13 @@ describe Metrux::Plugins::Process do
       it do
         allow(Metrux)
           .to receive(:periodic_gauge)
-          .with('Process#rss', anything) do |*_, &blk|
+          .with('process', anything) do |*_, &blk|
           @result = blk.call
         end
 
         call
 
-        expect(@result).to be(rss)
+        expect(@result).to eq(rss: rss)
       end
     end
 
@@ -107,13 +107,13 @@ describe Metrux::Plugins::Process do
       it do
         allow(Metrux)
           .to receive(:periodic_gauge)
-          .with('Process#rss', anything) do |*_, &blk|
+          .with('process', anything) do |*_, &blk|
           @result = blk.call
         end
 
         call
 
-        expect(@result).to be(rss)
+        expect(@result).to eq(rss: rss)
       end
     end
 
@@ -123,13 +123,13 @@ describe Metrux::Plugins::Process do
       it do
         allow(Metrux)
           .to receive(:periodic_gauge)
-          .with('Process#rss', anything) do |*_, &blk|
+          .with('process', anything) do |*_, &blk|
           @result = blk.call
         end
 
         call
 
-        expect(@result).to be(0)
+        expect(@result).to eq(rss: 0)
       end
     end
 
@@ -144,13 +144,13 @@ describe Metrux::Plugins::Process do
       it do
         allow(Metrux)
           .to receive(:periodic_gauge)
-          .with('Process#rss', anything) do |*_, &blk|
+          .with('process', anything) do |*_, &blk|
           @result = blk.call
         end
 
         call
 
-        expect(@result).to be(0)
+        expect(@result).to eq(rss: 0)
       end
     end
   end

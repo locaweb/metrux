@@ -10,7 +10,7 @@ module Metrux
       end
 
       def call
-        register('Process#rss') { rss }
+        register('process') { { rss: rss } }
       end
 
       private
