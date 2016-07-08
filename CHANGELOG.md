@@ -1,3 +1,9 @@
+# 0.8.0
+
+- Change built-in plugins
+  - Each plugin will register only one gauge with all info
+  - Change its measurement key
+
 # 0.7.0
 
 **We encourage that you use this version or higher to avoid big database indexes
