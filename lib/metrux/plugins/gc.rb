@@ -2,44 +2,48 @@ module Metrux
   module Plugins
     class Gc < Base
       def call
-        register_gc_count
-        register_allocated_objects
-        register_heap_live
-        register_heap_free
+        register('gc') do
+          {
+            count: count, major_count: major_count, minor_count: minor_count,
+            total_allocated_objects: total_allocated_objects,
+            heap_live: heap_live, heap_free: heap_free
+          }
+        end
       end
 
       private
 
-      def register_gc_count
-        register('GC#count') { ::GC.count }
-        register('GC#major_gc_count') { ::GC.stat[:major_gc_count] }
-        register('GC#minor_gc_count') { ::GC.stat[:minor_gc_count] }
+      def count
+        ::GC.count
       end
 
-      def register_allocated_objects
-        register('GC#total_allocated_object') do
-          gc_stats = ::GC.stat
-          gc_stats[:total_allocated_objects] ||
-            gc_stats[:total_allocated_object]
-        end
+      def major_count
+        gc_stats[:major_gc_count]
       end
 
-      def register_heap_live
-        register('GC#heap_live') do
-          gc_stats = ::GC.stat
-          gc_stats[:heap_live_slots] ||
-            gc_stats[:heap_live_slot] ||
-            gc_stats[:heap_live_num]
-        end
+      def minor_count
+        gc_stats[:minor_gc_count]
       end
 
-      def register_heap_free
-        register('GC#heap_free') do
-          gc_stats = ::GC.stat
-          gc_stats[:heap_free_slots] ||
-            gc_stats[:heap_free_slot] ||
-            gc_stats[:heap_free_num]
-        end
+      def total_allocated_objects
+        gc_stats[:total_allocated_objects] ||
+          gc_stats[:total_allocated_object]
+      end
+
+      def heap_live
+        gc_stats[:heap_live_slots] ||
+          gc_stats[:heap_live_slot] ||
+          gc_stats[:heap_live_num]
+      end
+
+      def heap_free
+        gc_stats[:heap_free_slots] ||
+          gc_stats[:heap_free_slot] ||
+          gc_stats[:heap_free_num]
+      end
+
+      def gc_stats
+        ::GC.stat
       end
     end
   end
