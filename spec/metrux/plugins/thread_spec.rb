@@ -7,7 +7,7 @@ describe Metrux::Plugins::Thread do
   describe '#call' do
     subject(:call) { plugin.call }
 
-    let(:expected_key) { 'Thread.list.count' }
+    let(:expected_key) { 'thread' }
 
     it do
       expect(Metrux)
@@ -30,7 +30,7 @@ describe Metrux::Plugins::Thread do
 
       call
 
-      expect(@result).to be(thread_list.count)
+      expect(@result).to eq(count: thread_list.count)
     end
   end
 end
