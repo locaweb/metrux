@@ -1,7 +1,7 @@
 describe Metrux::Commands::PeriodicGauge::Reporter do
   subject(:reporter) { described_class.new(command, registry, config) }
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
   let(:command) { instance_double(Metrux::Commands::PeriodicGauge) }
   let(:registry) { instance_double(Metrux::Commands::PeriodicGauge::Registry) }
 

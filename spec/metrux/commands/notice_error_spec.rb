@@ -1,7 +1,7 @@
 describe Metrux::Commands::NoticeError, type: :command do
   subject(:command) { described_class.new(config, connection) }
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
   let(:connection) do
     instance_double(Metrux::Connections::InfluxDb, write_point: nil)
   end

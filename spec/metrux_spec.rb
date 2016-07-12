@@ -27,7 +27,7 @@ describe Metrux do
     end
 
     it do
-      configuration = Metrux::Configuration.new
+      configuration = build(:configuration)
 
       allow(Metrux::Configuration)
         .to receive(:new)
@@ -42,7 +42,7 @@ describe Metrux do
     end
 
     it do
-      configuration = Metrux::Configuration.new
+      configuration = build(:configuration)
 
       allow(Metrux::Configuration)
         .to receive(:new)
@@ -57,7 +57,7 @@ describe Metrux do
     end
 
     it do
-      configuration = Metrux::Configuration.new
+      configuration = build(:configuration)
 
       allow(Metrux::Configuration)
         .to receive(:new)

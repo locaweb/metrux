@@ -1,7 +1,7 @@
 describe Metrux::Commands::PeriodicGauge::Registry do
   subject(:registry) { described_class.new(config) }
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
 
   describe '#add' do
     subject(:add) { registry.add(key, &to_be_processed) }

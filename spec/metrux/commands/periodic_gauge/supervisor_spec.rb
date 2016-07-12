@@ -2,7 +2,7 @@ describe Metrux::Commands::PeriodicGauge::Supervisor do
   subject(:supervisor) { described_class.new(agent, config) }
 
   let(:agent) { instance_double(Metrux::Commands::PeriodicGauge::Agent) }
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
 
   let(:instance) { supervisor }
   it_behaves_like 'sleeper'

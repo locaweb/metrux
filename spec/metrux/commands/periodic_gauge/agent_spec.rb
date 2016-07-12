@@ -5,7 +5,7 @@ describe Metrux::Commands::PeriodicGauge::Agent do
     instance_double(Metrux::Connections::InfluxDb, write_point: nil)
   end
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
   let(:command) { Metrux::Commands::PeriodicGauge.new(config, connection) }
   let(:registry) { Metrux::Commands::PeriodicGauge::Registry.new(config) }
 

@@ -1,7 +1,7 @@
 describe Metrux::Connections::Null do
   subject(:connection) { described_class.new(config) }
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
 
   describe '#write_point' do
     subject(:write_point) { connection.write_point(*args) }

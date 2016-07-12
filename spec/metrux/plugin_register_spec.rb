@@ -10,7 +10,7 @@ end
 describe Metrux::PluginRegister do
   subject(:plugin_register) { described_class.new(config) }
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
 
   describe '.register' do
     subject(:register) { plugin_register.register(plugin) }

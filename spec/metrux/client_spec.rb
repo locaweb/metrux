@@ -1,7 +1,7 @@
 describe Metrux::Client do
   subject(:client) { described_class.new(config) }
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
 
   available_commands = %i(timer meter gauge periodic_gauge notice_error write)
 
@@ -37,8 +37,6 @@ describe Metrux::Client do
     end
 
     context 'when Metrux is not active' do
-      let(:config) { Metrux::Configuration.new.dup }
-
       let(:null_conn) { instance_double(Metrux::Connections::Null) }
 
       before do

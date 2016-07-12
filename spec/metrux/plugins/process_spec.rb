@@ -1,7 +1,7 @@
 describe Metrux::Plugins::Process do
   subject(:plugin) { described_class.new(config, options) }
 
-  let(:config) { Metrux::Configuration.new }
+  let!(:config) { build(:configuration) }
   let(:options) { { tags: { some: 'tag' } } }
 
   describe '#initialize' do

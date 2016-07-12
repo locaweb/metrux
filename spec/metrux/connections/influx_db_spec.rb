@@ -1,7 +1,7 @@
 describe Metrux::Connections::InfluxDb do
   subject(:connection) { described_class.new(config) }
 
-  let(:config) { Metrux::Configuration.new }
+  let(:config) { build(:configuration) }
   let(:influx_config) { config.influx }
 
   it { is_expected.to be_truthy }
