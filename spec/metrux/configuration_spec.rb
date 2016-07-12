@@ -6,75 +6,7 @@ describe Metrux::Configuration do
     YAML.load_file(config_path).fetch('test').with_indifferent_access
   end
 
-  describe '#initialize' do
-    subject(:init) { config }
-
-    it { is_expected.to be_a(Metrux::Configuration) }
-
-    context 'when the configuration file was not found' do
-      let(:config_path) { 'file_not_found.yml' }
-
-      it do
-        expect { init }.to raise_error(
-          Metrux::ConfigBuilders::Yaml::FileLoadError,
-          /Errno\:\:ENOENT\:\ No\ such\ file\ or\ directory/
-        )
-      end
-    end
-
-    context 'when the configuration file contains ERB templating' do
-      let(:config_path) { 'spec/support/config/erb_templating.yml' }
-
-      before { ENV['SOMETHING'] = '43' }
-      after { ENV['SOMETHING'] = nil }
-
-      it { is_expected.to be_a(Metrux::Configuration) }
-
-      context 'when the template has an evaluation error' do
-        before { ENV['SOMETHING'] = nil }
-
-        it do
-          expect { init }.to raise_error(
-            Metrux::ConfigBuilders::Yaml::FileLoadError,
-            'KeyError: key not found: "SOMETHING"'
-          )
-        end
-      end
-    end
-
-    context 'when there is not any configuration for a specific environment' do
-      before { ENV['RAILS_ENV'] = '404_environment' }
-      after { ENV['RAILS_ENV'] = 'test' }
-
-      let(:config_from_yaml) do
-        YAML.load_file(config_path).fetch('development').with_indifferent_access
-      end
-
-      before { allow(Kernel).to receive(:warn) }
-
-      it do
-        expect(Kernel).to receive(:warn).with(
-          "[WARNING] Metrux's configuration wasn't found for environment "\
-          "\"404_environment\". Switching to default: \"development\"."
-        )
-
-        init
-      end
-
-      it { expect(config.app_name).to eq(config_from_yaml[:app_name]) }
-
-      context 'and the default environment was not found' do
-        let(:config_path) { 'spec/support/config/without_default_env.yml' }
-
-        it do
-          expect { init }.to raise_error(
-            Metrux::ConfigBuilders::Yaml::EnvironmentNotFoundError,
-            'KeyError: key not found: "development"'
-          )
-        end
-      end
-    end
-  end
+  it { is_expected.to be_truthy }
 
   describe '#env' do
     subject(:env) { config.env }

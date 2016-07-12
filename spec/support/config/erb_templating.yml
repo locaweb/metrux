@@ -91,4 +91,4 @@ rack_env_test:
 
 test:
   <<: *defaults
-  app_name: "Test app (Test)"
+  app_name: "Test app <%= ENV.fetch('SOMETHING') %>"

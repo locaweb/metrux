@@ -10,12 +10,24 @@ module Metrux
       end
 
       def build
-        from_environment(load_file(config_path)).with_indifferent_access
+        file_exists? ? yaml_content : null_content
       end
 
       private
 
       attr_reader :config_path, :env
+
+      def file_exists?
+        File.exist?(config_path)
+      end
+
+      def null_content
+        {}
+      end
+
+      def yaml_content
+        from_environment(load_file(config_path)).with_indifferent_access
+      end
 
       def load_file(config_path)
         content = File.read(config_path)
