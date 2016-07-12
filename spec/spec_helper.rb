@@ -15,6 +15,7 @@ end
 
 require 'pry'
 require 'shoulda-matchers'
+require 'factory_girl'
 require 'metrux'
 
 root = File.expand_path('../../', __FILE__)
@@ -23,5 +24,13 @@ Dir[File.join(root, 'spec/support/**/*.rb')].each { |f| require f }
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
+  end
+end
+
+RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    FactoryGirl.find_definitions
   end
 end

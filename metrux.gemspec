@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'simplecov-rcov'
   spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'factory_girl'
 
   spec.add_dependency 'activesupport'
   spec.add_dependency 'influxdb', '>= 0.3.5'
