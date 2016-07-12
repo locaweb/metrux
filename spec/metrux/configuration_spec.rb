@@ -196,51 +196,6 @@ describe Metrux::Configuration do
   describe '#logger' do
     subject(:logger) { config.logger }
 
-    let(:log_device) { logger.instance_variable_get(:@logdev) }
-    let(:log_file) { log_device.filename }
-    let(:expected_log_file) { config_from_yaml[:log_file] }
-
     it { is_expected.to be_a(::Logger) }
-    it { expect(log_file).to eq(expected_log_file) }
-
-    context 'when the env var is set' do
-      let(:log_file_from_env) { 'test.log' }
-
-      before do
-        ENV['METRUX_LOG_FILE'] = log_file_from_env
-      end
-
-      after { ENV['METRUX_LOG_FILE'] = nil }
-
-      it { is_expected.to be_a(::Logger) }
-      it { expect(log_file).to eq(log_file_from_env) }
-    end
-
-    context 'when neither yaml nor env var are defined' do
-      before { ENV['RAILS_ENV'] = 'without_log_file' }
-      after { ENV['RAILS_ENV'] = 'test' }
-
-      it { is_expected.to be_a(::Logger) }
-      it { expect(log_device.dev).to eq(STDOUT) }
-    end
-
-    context 'when the file can\'t be created' do
-      before do
-        allow(Kernel).to receive(:warn)
-        allow(::Logger).to receive(:new).and_raise(
-          Errno::EPERM, 'Permission denied'
-        )
-      end
-
-      it do
-        expect(Kernel).to receive(:warn).with(
-          /\[WARNING\] Cound\'t configure Metrux\'s logger\.\ Errno\:\:EPERM\:\ /
-        )
-
-        logger
-      end
-
-      it { is_expected.to be(nil) }
-    end
   end
 end

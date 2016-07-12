@@ -29,7 +29,11 @@ module Metrux
       attr_reader :yaml
 
       def log_file
-        ENV[LOG_FILE_KEY] || yaml[:log_file] || DEFAULT_LOG_PATH
+        from_config = (ENV[LOG_FILE_KEY] || yaml[:log_file]).presence
+
+        return DEFAULT_LOG_PATH if from_config.blank?
+
+        from_config == 'STDOUT'.freeze ? STDOUT : from_config
       end
 
       def log_level
