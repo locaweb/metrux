@@ -10,6 +10,8 @@ describe Metrux do
   describe '.setup' do
     subject(:setup) { described_class.setup }
 
+    let!(:configuration) { build(:configuration) }
+
     context do
       before { Metrux.instance_variable_set('@configured', nil) }
 
@@ -18,21 +20,17 @@ describe Metrux do
       end
     end
 
+    before do
+      allow(Metrux::Configuration).to receive(:new).and_return(configuration)
+    end
+
     it do
-      expect(Metrux::Configuration)
-        .to receive(:new)
-        .and_call_original
+      expect(Metrux::Configuration) .to receive(:new)
 
       setup
     end
 
     it do
-      configuration = build(:configuration)
-
-      allow(Metrux::Configuration)
-        .to receive(:new)
-        .and_return(configuration)
-
       expect(Metrux::Client)
         .to receive(:new)
         .with(configuration)
@@ -42,12 +40,6 @@ describe Metrux do
     end
 
     it do
-      configuration = build(:configuration)
-
-      allow(Metrux::Configuration)
-        .to receive(:new)
-        .and_return(configuration)
-
       expect(Metrux::PluginRegister)
         .to receive(:new)
         .with(configuration)
@@ -57,12 +49,6 @@ describe Metrux do
     end
 
     it do
-      configuration = build(:configuration)
-
-      allow(Metrux::Configuration)
-        .to receive(:new)
-        .and_return(configuration)
-
       expect { setup }
         .to change { described_class.config }
         .to(configuration)
@@ -124,6 +110,11 @@ describe Metrux do
 
     context 'when it is not configured yet' do
       let(:configured?) { false }
+      let(:configuration) { build(:configuration) }
+
+      before do
+        allow(Metrux::Configuration).to receive(:new).and_return(configuration)
+      end
 
       it { is_expected.to be_a(Metrux::Client) }
 
@@ -154,6 +145,11 @@ describe Metrux do
 
     context 'when it is not configured yet' do
       let(:configured?) { false }
+      let(:configuration) { build(:configuration) }
+
+      before do
+        allow(Metrux::Configuration).to receive(:new).and_return(configuration)
+      end
 
       it { is_expected.to be_a(Metrux::PluginRegister) }
 

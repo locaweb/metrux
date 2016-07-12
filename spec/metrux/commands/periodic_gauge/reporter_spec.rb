@@ -67,7 +67,7 @@ describe Metrux::Commands::PeriodicGauge::Reporter do
     end
 
     context 'when metrux is not active' do
-      let(:config) { object_double(Metrux::Configuration.new, active?: false) }
+      let(:config) { object_double(build(:configuration), active?: false) }
 
       it { is_expected.to be(false) }
 

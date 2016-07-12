@@ -7,6 +7,7 @@ module Metrux
 
     def initialize(config)
       @config = config
+      @logger = config.logger
       @plugins = []
     end
 
@@ -51,6 +52,6 @@ module Metrux
 
     private
 
-    attr_reader :config
+    attr_reader :config, :logger
   end
 end
