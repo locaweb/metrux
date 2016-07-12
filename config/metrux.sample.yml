@@ -1,6 +1,6 @@
 default: &defaults
   #
-  # Your application's name (All metrics will be marked with this tag
+  # Your application's name (All metrics will be marked with this tag)
   #
   # app_name: "My application"
 
