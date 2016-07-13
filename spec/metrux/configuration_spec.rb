@@ -149,15 +149,103 @@ describe Metrux::Configuration do
     end
   end
 
+  describe '#yaml' do
+    subject(:yaml) { config.yaml }
+
+    let(:builder) do
+      instance_double(Metrux::ConfigBuilders::Yaml, build: yaml_instance)
+    end
+
+    let(:env) { 'my-env' }
+    let(:yaml_instance) { { some: :conf } }
+
+    before do
+      allow(config).to receive(:env).and_return(env)
+      allow(Metrux::ConfigBuilders::Yaml).to receive(:new).and_return(builder)
+    end
+
+    it { is_expected.to be(yaml_instance) }
+
+    it do
+      expect(Metrux::ConfigBuilders::Yaml)
+        .to receive(:new).with(config_path, env)
+
+      yaml
+    end
+  end
+
+  describe '#commons' do
+    subject(:commons) { config.commons }
+
+    let(:builder) do
+      instance_double(Metrux::ConfigBuilders::Common, build: commons_config)
+    end
+
+    let(:yaml) { { some: :conf } }
+    let(:commons_config) { { active: true } }
+
+    before do
+      allow(config).to receive(:yaml).and_return(yaml)
+      allow(Metrux::ConfigBuilders::Common).to receive(:new).and_return(builder)
+    end
+
+    it { is_expected.to be(commons_config) }
+
+    it do
+      expect(Metrux::ConfigBuilders::Common)
+        .to receive(:new).with(yaml)
+
+      commons
+    end
+  end
+
   describe '#influx' do
     subject(:influx) { config.influx }
 
-    it { is_expected.to be_a(::Hash) }
+    let(:builder) do
+      instance_double(Metrux::ConfigBuilders::Influx, build: influx_config)
+    end
+
+    let(:yaml) { { some: :conf } }
+    let(:influx_config) { { host: 'host', port: 8083, user: 'user' } }
+
+    before do
+      allow(config).to receive(:yaml).and_return(yaml)
+      allow(Metrux::ConfigBuilders::Influx).to receive(:new).and_return(builder)
+    end
+
+    it { is_expected.to be(influx_config) }
+
+    it do
+      expect(Metrux::ConfigBuilders::Influx)
+        .to receive(:new).with(yaml)
+
+      influx
+    end
   end
 
   describe '#logger' do
     subject(:logger) { config.logger }
 
-    it { is_expected.to be_a(::Logger) }
+    let(:builder) do
+      instance_double(Metrux::ConfigBuilders::Logger, build: logger_instance)
+    end
+
+    let(:yaml) { { some: :conf } }
+    let(:logger_instance) { ::Logger.new('/dev/null') }
+
+    before do
+      allow(config).to receive(:yaml).and_return(yaml)
+      allow(Metrux::ConfigBuilders::Logger).to receive(:new).and_return(builder)
+    end
+
+    it { is_expected.to be(logger_instance) }
+
+    it do
+      expect(Metrux::ConfigBuilders::Logger)
+        .to receive(:new).with(yaml)
+
+      logger
+    end
   end
 end
