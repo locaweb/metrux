@@ -50,11 +50,12 @@ Its configuration is based on ENV VARS and/or YAML, pretty similar to
 | `METRUX_PERIODIC_GAUGE_INTERVAL` | `periodic_gauge_interval` | `60` | Interval that agent will execute all registered periodic gauges (in seconds) |
 | `METRUX_LOG_FILE` | `log_file` | `STDOUT` | Log file path |
 | `METRUX_LOG_LEVEL` | `log_level` | `info` | Log level |
-| `METRUX_INFLUX_HOST` | `influx_host` |  | InfluxDB host - See: https://github.com/influxdata/influxdb-ruby#creating-a-client |
-| `METRUX_INFLUX_PORT` | `influx_port` |  | InfluxDB port |
-| `METRUX_INFLUX_DATABASE` | `influx_database` |  | InfluxDB database |
-| `METRUX_INFLUX_USERNAME` | `influx_username` |  | InfluxDB username |
-| `METRUX_INFLUX_ASYNC` | `influx_async` |  | InfluxDB async options - See: https://github.com/influxdata/influxdb-ruby#writing-data |
+| `METRUX_INFLUX_HOST` | `influx_host` | localhost | InfluxDB host - See: https://github.com/influxdata/influxdb-ruby#creating-a-client |
+| `METRUX_INFLUX_PORT` | `influx_port` | 8083 | InfluxDB port |
+| `METRUX_INFLUX_DATABASE` | `influx_database` |   | InfluxDB database |
+| `METRUX_INFLUX_USERNAME` | `influx_username` | root | InfluxDB username |
+| `METRUX_INFLUX_PASSWORD` | `influx_password` | root | InfluxDB password |
+| `METRUX_INFLUX_ASYNC` | `influx_async` | true | InfluxDB async options - See: https://github.com/influxdata/influxdb-ruby#writing-data |
 
 ## Usage
 
@@ -331,12 +332,12 @@ time                 a  app_name       b  error           hostname       message
 
 * `Metrux::Plugins::Thread` - Register a periodic gauge to count the amount of
   running threads. See [Metrux::Plugins::Thread](lib/metrux/plugins/thread.rb)
-* `Metrux::Plugins::Gc` - Register some periodic gauges to fetch info from
+* `Metrux::Plugins::Gc` - Register a periodic gauge to fetch info from
   Ruby's GC. See [Metrux::Plugins::Gc](lib/metrux/plugins/gc.rb)
-* `Metrux::Plugins::Process` - Register a periodic gauges to fetch the memory
+* `Metrux::Plugins::Process` - Register a periodic gauge to fetch the memory
   consumption (rss) of the current process. See
   [Metrux::Plugins::Process](lib/metrux/plugins/process.rb)
-* `Metrux::Plugins::Yarv` - Register some periodic gauges to fetch info from
+* `Metrux::Plugins::Yarv` - Register a periodic gauges to fetch info from
   Ruby's VM. See [Metrux::Plugins::Yarv](lib/metrux/plugins/yarv.rb)
 
 #### Registering
