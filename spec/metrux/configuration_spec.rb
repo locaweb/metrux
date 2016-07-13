@@ -152,45 +152,7 @@ describe Metrux::Configuration do
   describe '#influx' do
     subject(:influx) { config.influx }
 
-    let(:expected_influx) do
-      config_from_yaml
-        .reduce(time_precision: 'ns') do |influx, (k, v)|
-          if k.start_with?('influx_')
-            influx[k.gsub('influx_', '').to_sym] = v
-          end
-          influx
-        end
-    end
-
-    it { is_expected.to eq(expected_influx) }
-
-    context 'when the env var is set' do
-      %w(host port database username password async).each do |key|
-        context "for the key #{key}" do
-          subject { influx[key.to_sym] }
-
-          let(:option) { "option_#{key}" }
-
-          before { ENV["METRUX_INFLUX_#{key.upcase}"] = option }
-
-          after { ENV["METRUX_INFLUX_#{key.upcase}"] = nil }
-
-          it { is_expected.to eq(option) }
-        end
-      end
-    end
-
-    context 'when neither yaml nor env var are defined' do
-      before { ENV['RAILS_ENV'] = 'without_influx' }
-      after { ENV['RAILS_ENV'] = 'test' }
-
-      it do
-        expect { influx }.to raise_error(
-          Metrux::ConfigBuilders::Influx::ConfigNotFoundError,
-          'KeyError: key not found: "influx_host"'
-        )
-      end
-    end
+    it { is_expected.to be_a(::Hash) }
   end
 
   describe '#logger' do

@@ -1,39 +1,41 @@
 module Metrux
   module ConfigBuilders
     class Influx
-      HOST_KEY = 'METRUX_INFLUX_HOST'.freeze
-      PORT_KEY = 'METRUX_INFLUX_PORT'.freeze
-      DATABASE_KEY = 'METRUX_INFLUX_DATABASE'.freeze
-      USERNAME_KEY = 'METRUX_INFLUX_USERNAME'.freeze
-      PASSWORD_KEY = 'METRUX_INFLUX_PASSWORD'.freeze
-      ASYNC_KEY = 'METRUX_INFLUX_ASYNC'.freeze
       DEFAULT_TIME_PRECISION = 'ns'.freeze
-
-      ConfigNotFoundError = Class.new(ConfigurationError)
+      DEFAULT_ASYNC = true
 
       def initialize(yaml)
         @yaml = yaml
       end
 
       def build
-        {
-          host: host, port: port, database: database, username: username,
-          password: password, async: async,
-          time_precision: DEFAULT_TIME_PRECISION
-        }.freeze
-      rescue KeyError => e
-        raise(ConfigNotFoundError, "#{e.class}: #{e.message}")
+        defaults.deep_merge(
+          config_from_yaml.deep_merge(config_from_env_var)
+        ).freeze
       end
 
       private
 
       attr_reader :yaml
 
-      %w(host port database username password async).each do |reader|
-        define_method(reader) do
-          ENV[self.class.const_get("#{reader.upcase}_KEY")] ||
-            yaml.fetch("influx_#{reader}".to_sym)
+      def config_from_env_var
+        fetch_from(ENV, 'METRUX_INFLUX_'.freeze)
+      end
+
+      def config_from_yaml
+        fetch_from(yaml, 'influx_'.freeze)
+      end
+
+      def fetch_from(object, prefix)
+        object.each_with_object({}) do |(config_key, value), acc|
+          if config_key.start_with?(prefix)
+            acc[config_key.gsub(/^#{prefix}/, '').to_s.downcase.to_sym] = value
+          end
         end
+      end
+
+      def defaults
+        { time_precision: DEFAULT_TIME_PRECISION, async: DEFAULT_ASYNC }
       end
     end
   end
