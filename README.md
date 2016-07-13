@@ -41,6 +41,9 @@ You will need to create a config file on `config/metrux.yml`. See a
 Its configuration is based on ENV VARS and/or YAML, pretty similar to
 `appsignal` or `newrelic` gems. ENV VARS will always override yaml configs.
 
+**If you want to configure only via ENV VARS you won't need to have the config
+file.**
+
 ### Configuration keys
 
 | ENV VAR | yaml | Default | Description |
