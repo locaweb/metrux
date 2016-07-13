@@ -1,3 +1,13 @@
+# 0.9.0
+
+- Remove the need of having a config file, it can be configured only with env
+  vars
+  - Add fallback of non existant config file to return an empty hash
+- Change `Configuration` setup
+- Change influx db configuration defaults
+- Allow to force setting STDOUT through env var or config file
+- Remove the need of having `config/metrux.yml` to run the test suite
+
 # 0.8.0
 
 - Change built-in plugins
