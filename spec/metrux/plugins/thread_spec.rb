@@ -4,33 +4,26 @@ describe Metrux::Plugins::Thread do
   let(:config) { build(:configuration) }
   let(:options) { { tags: { some: 'tag' } } }
 
-  describe '#call' do
-    subject(:call) { plugin.call }
+  describe '.ancestors' do
+    subject(:ancestors) { described_class.ancestors }
 
-    let(:expected_key) { 'thread' }
+    it { is_expected.to include(Metrux::Plugins::PeriodicGauge) }
+  end
 
-    it do
-      expect(Metrux)
-        .to receive(:periodic_gauge)
-        .with(expected_key, options)
+  describe '#data' do
+    subject(:data) { plugin.data }
 
-      call
-    end
+    let(:expected_data) { { count: thread_list.count } }
+    let(:thread_list) { 42.times.map(&:to_i) }
 
-    it do
-      @result = nil
+    before { allow(::Thread).to receive(:list).and_return(thread_list) }
 
-      allow(Metrux)
-        .to receive(:periodic_gauge)
-        .with(expected_key, options) { |*_, &blk| @result = blk.call }
+    it { is_expected.to eq(expected_data) }
+  end
 
-      thread_list = 42.times.map(&:to_i)
+  describe '#key' do
+    subject(:key) { plugin.key }
 
-      allow(::Thread).to receive(:list).and_return(thread_list)
-
-      call
-
-      expect(@result).to eq(count: thread_list.count)
-    end
+    it { is_expected.to eq('thread') }
   end
 end

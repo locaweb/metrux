@@ -1,13 +1,15 @@
 module Metrux
   module Plugins
-    class Yarv < Base
-      def call
-        register('rubyvm') do
-          {
-            global_method_state: global_method_state,
-            global_constant_state: global_constant_state
-          }
-        end
+    class Yarv < PeriodicGauge
+      def data
+        {
+          global_method_state: global_method_state,
+          global_constant_state: global_constant_state
+        }
+      end
+
+      def key
+        'rubyvm'.freeze
       end
 
       private

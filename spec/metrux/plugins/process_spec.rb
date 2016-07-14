@@ -10,23 +10,28 @@ describe Metrux::Plugins::Process do
     it { is_expected.to be_truthy }
   end
 
-  describe '#call' do
-    subject(:call) { plugin.call }
+  describe '.ancestors' do
+    subject(:ancestors) { described_class.ancestors }
+
+    it { is_expected.to include(Metrux::Plugins::PeriodicGauge) }
+  end
+
+  describe '#data' do
+    subject(:data) { plugin.data }
+
+    let(:expected_data) { { rss: rss } }
 
     let(:statm_found?) { true }
     let(:rss) { 100_000 }
-    let(:pagesize) { 4_096 }
+    let(:pid) { Process.pid }
+    let(:pagesize) { 2_048 }
     let(:pagesize_conf) { "#{pagesize}\n" }
-    let(:statm_path) { "/proc/#{Process.pid}/statm" }
-    let(:statm_rss) { rss * 1_024/ pagesize }
+    let(:statm_path) { "/proc/#{pid}/statm" }
+    let(:statm_rss) { (rss * 1_024) / pagesize }
     let(:statm_content) { "74103 #{statm_rss} 1869 1 0 30688 0\n" }
     let(:host_os) { 'linux-gnu' }
 
-    let(:expected_key) { 'process' }
-
     before do
-      @result = nil
-
       @current_os = RbConfig::CONFIG['host_os']
       RbConfig::CONFIG['host_os'] = host_os
 
@@ -39,8 +44,6 @@ describe Metrux::Plugins::Process do
         .to receive(:exist?)
         .and_return(statm_found?)
 
-      allow(::File).to receive(:read).and_call_original
-
       allow(::File)
         .to receive(:read)
         .with(statm_path)
@@ -49,91 +52,132 @@ describe Metrux::Plugins::Process do
 
     after { RbConfig::CONFIG['host_os'] = @current_os }
 
-    it do
-      allow(Metrux)
-        .to receive(:periodic_gauge)
-        .with('process', anything) do |*_, &blk|
-        @result = blk.call
-      end
-
-      call
-
-      expect(@result).to eq(rss: rss)
-    end
+    it { is_expected.to eq(expected_data) }
 
     it do
-      expect(Metrux)
-        .to receive(:periodic_gauge)
-        .with(expected_key, options)
+      expect(::File)
+        .to receive(:read)
+        .with(statm_path)
 
-      call
+      data
     end
 
     context 'when the statm file was not found' do
       let(:statm_found?) { false }
-      let(:pid) { Process.pid }
+      let(:rss_from_ps) { 10_000 }
+
+      let(:expected_data) { { rss: rss_from_ps } }
 
       before do
         allow(::Kernel)
           .to receive(:`)
           .with("ps -o rss= -p #{pid}")
-          .and_return("#{rss}\n")
+          .and_return("#{rss_from_ps}\n")
+      end
+
+      it { is_expected.to eq(expected_data) }
+
+      it do
+        expect(::Kernel)
+          .to receive(:`)
+          .with("ps -o rss= -p #{pid}")
+
+        data
       end
 
       it do
-        allow(Metrux)
-          .to receive(:periodic_gauge)
-          .with('process', anything) do |*_, &blk|
-          @result = blk.call
+        expect(::File)
+          .not_to receive(:read)
+          .with(statm_path)
+
+        data
+      end
+
+      context 'when something wrong happens on ps rss fecthing' do
+        let(:expected_data) { { rss: 0 } }
+
+        before do
+          allow(::Kernel)
+            .to receive(:`)
+            .with("ps -o rss= -p #{pid}")
+            .and_raise('something went wrong')
         end
 
-        call
-
-        expect(@result).to eq(rss: rss)
+        it { is_expected.to eq(expected_data) }
       end
     end
 
     context 'when the os is a mac' do
       let(:host_os) { 'darwin15.2.0' }
-      let(:pid) { Process.pid }
+      let(:rss_from_ps) { 10_000 }
+
+      let(:expected_data) { { rss: rss_from_ps } }
 
       before do
         allow(::Kernel)
           .to receive(:`)
           .with("ps -o rss= -p #{pid}")
-          .and_return("#{rss}\n")
+          .and_return("#{rss_from_ps}\n")
+      end
+
+      it { is_expected.to eq(expected_data) }
+
+      it do
+        expect(::Kernel)
+          .to receive(:`)
+          .with("ps -o rss= -p #{pid}")
+
+        data
       end
 
       it do
-        allow(Metrux)
-          .to receive(:periodic_gauge)
-          .with('process', anything) do |*_, &blk|
-          @result = blk.call
+        expect(::File)
+          .not_to receive(:read)
+          .with(statm_path)
+
+        data
+      end
+
+      context 'when something wrong happens on ps rss fecthing' do
+        let(:expected_data) { { rss: 0 } }
+
+        before do
+          allow(::Kernel)
+            .to receive(:`)
+            .with("ps -o rss= -p #{pid}")
+            .and_raise('something went wrong')
         end
 
-        call
-
-        expect(@result).to eq(rss: rss)
+        it { is_expected.to eq(expected_data) }
       end
     end
 
     context 'when the os is unknown' do
       let(:host_os) { 'windows' }
+      let(:expected_data) { { rss: 0 } }
+
+      it { is_expected.to eq(expected_data) }
 
       it do
-        allow(Metrux)
-          .to receive(:periodic_gauge)
-          .with('process', anything) do |*_, &blk|
-          @result = blk.call
-        end
+        expect(::Kernel)
+          .not_to receive(:`)
+          .with("ps -o rss= -p #{pid}")
 
-        call
+        data
+      end
 
-        expect(@result).to eq(rss: 0)
+      it do
+        expect(::File)
+          .not_to receive(:read)
+          .with(statm_path)
+
+        data
       end
     end
 
-    context 'when something wrong happens during fetching' do
+    context 'when something wrong happens on statm path fecthing' do
+      let(:expected_data) { { rss: 0 } }
+
       before do
         allow(::File)
           .to receive(:read)
@@ -141,17 +185,39 @@ describe Metrux::Plugins::Process do
           .and_raise('something went wrong')
       end
 
-      it do
-        allow(Metrux)
-          .to receive(:periodic_gauge)
-          .with('process', anything) do |*_, &blk|
-          @result = blk.call
-        end
-
-        call
-
-        expect(@result).to eq(rss: 0)
-      end
+      it { is_expected.to eq(expected_data) }
     end
+
+    context 'when something wrong happens on kernel page size fecthing' do
+      let(:pagesize) { 4_096 }
+
+      before do
+        allow(::Kernel)
+          .to receive(:`)
+          .with('getconf PAGESIZE')
+          .and_raise('something went wrong')
+      end
+
+      it { is_expected.to eq(expected_data) }
+    end
+
+    context 'when something wrong happens on statm rss fecthing' do
+      let(:expected_data) { { rss: 0 } }
+
+      before do
+        allow(::File)
+          .to receive(:read)
+          .with(statm_path)
+          .and_raise('something went wrong')
+      end
+
+      it { is_expected.to eq(expected_data) }
+    end
+  end
+
+  describe '#key' do
+    subject(:key) { plugin.key }
+
+    it { is_expected.to eq('process') }
   end
 end

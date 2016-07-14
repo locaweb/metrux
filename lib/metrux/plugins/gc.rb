@@ -1,14 +1,16 @@
 module Metrux
   module Plugins
-    class Gc < Base
-      def call
-        register('gc') do
-          {
-            count: count, major_count: major_count, minor_count: minor_count,
-            total_allocated_objects: total_allocated_objects,
-            heap_live: heap_live, heap_free: heap_free
-          }
-        end
+    class Gc < PeriodicGauge
+      def data
+        {
+          count: count, major_count: major_count, minor_count: minor_count,
+          total_allocated_objects: total_allocated_objects,
+          heap_live: heap_live, heap_free: heap_free
+        }
+      end
+
+      def key
+        'gc'.freeze
       end
 
       private

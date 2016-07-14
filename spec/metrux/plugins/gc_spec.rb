@@ -4,8 +4,14 @@ describe Metrux::Plugins::Gc do
   let(:config) { build(:configuration) }
   let(:options) { { tags: { some: 'tag' } } }
 
-  describe '#call' do
-    subject(:call) { plugin.call }
+  describe '.ancestors' do
+    subject(:ancestors) { described_class.ancestors }
+
+    it { is_expected.to include(Metrux::Plugins::PeriodicGauge) }
+  end
+
+  describe '#data' do
+    subject(:data) { plugin.data }
 
     let(:gc_stat) do
       {
@@ -16,13 +22,13 @@ describe Metrux::Plugins::Gc do
     end
 
     let(:gc_count) { 42 }
-    let(:major_gc_count) { rand(1_000_000) }
-    let(:minor_gc_count) { rand(1_000_000) }
-    let(:total_allocated_objects) { rand(1_000_000) }
-    let(:heap_live) { rand(1_000_000) }
-    let(:heap_free) { rand(1_000_000) }
+    let(:major_gc_count) { 43 }
+    let(:minor_gc_count) { 44 }
+    let(:total_allocated_objects) { 45 }
+    let(:heap_live) { 46 }
+    let(:heap_free) { 47 }
 
-    let(:expected_result) do
+    let(:expected_data) do
       {
         count: gc_count, major_count: major_gc_count,
         minor_count: minor_gc_count,
@@ -32,28 +38,16 @@ describe Metrux::Plugins::Gc do
     end
 
     before do
-      @result = nil
-
-      allow(Metrux).to receive(:periodic_gauge) do |*_, &blk|
-        @result = blk.call
-
-      end
       allow(::GC).to receive(:stat).and_return(gc_stat)
       allow(::GC).to receive(:count).and_return(gc_count)
     end
 
-    it do
-      call
+    it { is_expected.to eq(expected_data) }
+  end
 
-      expect(@result).to eq(expected_result)
-    end
+  describe '#key' do
+    subject(:key) { plugin.key }
 
-    it do
-      expect(Metrux)
-        .to receive(:periodic_gauge)
-        .with('gc', options)
-
-      call
-    end
+    it { is_expected.to eq('gc') }
   end
 end

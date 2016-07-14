@@ -1,8 +1,12 @@
 module Metrux
   module Plugins
-    class Thread < Base
-      def call
-        register('thread') { { count: ::Thread.list.count } }
+    class Thread < PeriodicGauge
+      def data
+        { count: ::Thread.list.count }
+      end
+
+      def key
+        'thread'.freeze
       end
     end
   end
