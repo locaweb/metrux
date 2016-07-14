@@ -19,9 +19,21 @@ describe Metrux::Plugins::PeriodicGauge do
     it do
       expect(Metrux)
         .to receive(:periodic_gauge)
-        .with(key, options, result: data)
+        .with(key, options)
 
       call
+    end
+
+    it 'passes the data to periodic gauge' do
+      result = nil
+
+      allow(Metrux).to receive(:periodic_gauge) do |*_, &blk|
+        result = blk.call
+      end
+
+      call
+
+      expect(result).to be(data)
     end
   end
 

@@ -7,7 +7,7 @@ module Metrux
       end
 
       def call
-        Metrux.periodic_gauge(key, options, result: data)
+        Metrux.periodic_gauge(key, options) { data }
       end
 
       def key
