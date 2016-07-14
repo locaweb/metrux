@@ -12,13 +12,16 @@ describe Metrux::Commands::NoticeError, type: :command do
     let(:error) { RuntimeError.new(error_message) }
     let(:error_message) { 'something went wrong' }
     let(:error_class) { error.class.to_s }
-    let(:error_tags) { { error: error_class, message: error_message } }
+    let(:error_tags) { { error: error_class } }
     let(:prefix) { config.prefix }
 
     let(:expected_key) { "#{prefix}/meters/errors" }
     let(:expected_tags) { default_tags.merge(error_tags) }
     let(:expected_data) do
-      { values: { value: 1 }, tags: expected_tags, timestamp: now_timestamp }
+      {
+        values: { value: 1, message: error_message },
+        tags: expected_tags, timestamp: now_timestamp
+      }
     end
 
     it { is_expected.to be(true) }

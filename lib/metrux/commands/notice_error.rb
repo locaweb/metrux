@@ -1,7 +1,7 @@
 module Metrux
   module Commands
     class NoticeError < Base
-      ERROR_METER_KEY = 'errors'.freeze
+      ERROR_METER_KEY = 'meters/errors'.freeze
 
       def execute(error, options = {})
         write(ERROR_METER_KEY, fetch_data(error, options))
@@ -17,7 +17,7 @@ module Metrux
 
       def fetch_data(error, options)
         format_data(
-          { message: error.message.truncate(100, separator: ' ') },
+          { message: error.message.truncate(100, separator: ' '), value: 1 },
           { tags: fetch_tags(error, options) }
         )
       end
