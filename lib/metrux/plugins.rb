@@ -3,7 +3,6 @@ module Metrux
   end
 end
 
-require_relative 'plugins/base'
 require_relative 'plugins/periodic_gauge'
 require_relative 'plugins/gc'
 require_relative 'plugins/process'
