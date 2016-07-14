@@ -1,20 +1,25 @@
 module Metrux
   module Commands
-    class NoticeError < Meter
+    class NoticeError < Base
       ERROR_METER_KEY = 'errors'.freeze
 
-      def execute(error, payload = {})
-        tags =
-          payload
-          .each_with_object({}) do |(k, v), with_string_values|
-            with_string_values[k] = v.is_a?(String) ? v : v.inspect
-          end
-          .merge(
-            error: error.class.to_s,
-            message: error.message.truncate(100, separator: ' ')
-          )
+      def execute(error, options = {})
+        write(ERROR_METER_KEY, fetch_data(error, options))
+      end
 
-        super(ERROR_METER_KEY, tags: tags)
+      private
+
+      def fetch_tags(error, options)
+        options.each_with_object({}) do |(k, v), with_string_values|
+          with_string_values[k] = v.is_a?(String) ? v : v.inspect
+        end.merge(error: error.class.to_s)
+      end
+
+      def fetch_data(error, options)
+        format_data(
+          { message: error.message.truncate(100, separator: ' ') },
+          { tags: fetch_tags(error, options) }
+        )
       end
     end
   end
