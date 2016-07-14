@@ -1,3 +1,7 @@
+# 0.10.1
+
+- Fix periodic gauge base plugin
+
 # 0.10.0
 
 - Create a periodic gauge base plugin
