@@ -1,3 +1,12 @@
+# 0.10.0
+
+- Create a periodic gauge base plugin
+- Switch built-in plugins inheritance from Base to PeriodicGauge
+  - Now it's easier to test the plugins
+- Remove `Metrux::Plugins::Base`
+- Change notice error command to save error message as a field to avoid big
+  indexes
+
 # 0.9.0
 
 - Remove the need of having a config file, it can be configured only with env
