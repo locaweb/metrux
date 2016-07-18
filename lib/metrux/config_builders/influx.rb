@@ -29,9 +29,19 @@ module Metrux
       def fetch_from(object, prefix)
         object.each_with_object({}) do |(config_key, value), acc|
           if config_key.start_with?(prefix)
-            acc[config_key.gsub(/^#{prefix}/, '').to_s.downcase.to_sym] = value
+            acc[config_key.gsub(/^#{prefix}/, '').to_s.downcase.to_sym] =
+              cast_value(value)
           end
         end
+      end
+
+      def cast_value(value)
+        return value.to_f if value.to_s.to_f.to_s == value.to_s
+        return value.to_i if value.to_s.to_i.to_s == value.to_s
+
+        value
+      rescue
+        value
       end
 
       def defaults

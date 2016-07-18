@@ -36,12 +36,45 @@ describe Metrux::ConfigBuilders::Influx do
 
           let(:option) { "option_#{key}" }
 
-          before { ENV["METRUX_INFLUX_#{key.upcase}"] = option }
+          before do
+            @current_env_option = ENV["METRUX_INFLUX_#{key.upcase}"]
+            ENV["METRUX_INFLUX_#{key.upcase}"] = option
+          end
 
-          after { ENV["METRUX_INFLUX_#{key.upcase}"] = nil }
+          after { ENV["METRUX_INFLUX_#{key.upcase}"] = @current_env_option }
 
           it { is_expected.to eq(option) }
         end
+      end
+
+      context 'and the key\'s value is a integer' do
+        subject { build[:port] }
+
+        let(:port) { '8083' }
+
+        before do
+          @current_env_option = ENV["METRUX_INFLUX_PORT"]
+          ENV["METRUX_INFLUX_PORT"] = port
+        end
+
+        after { ENV["METRUX_INFLUX_PORT"] = @current_env_option }
+
+        it { is_expected.to eq(port.to_i) }
+      end
+
+      context 'and the key\'s value is a float' do
+        subject { build[:max_delay] }
+
+        let(:max_delay) { '25.2' }
+
+        before do
+          @current_env_option = ENV["METRUX_INFLUX_MAX_DELAY"]
+          ENV["METRUX_INFLUX_MAX_DELAY"] = max_delay
+        end
+
+        after { ENV["METRUX_INFLUX_MAX_DELAY"] = @current_env_option }
+
+        it { is_expected.to eq(max_delay.to_f) }
       end
     end
 
