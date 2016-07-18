@@ -1,3 +1,7 @@
+# 0.10.3
+
+- Cast boolean values for influx configs
+
 # 0.10.2
 
 - Cast numeric values for influx configs
