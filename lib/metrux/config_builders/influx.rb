@@ -36,12 +36,31 @@ module Metrux
       end
 
       def cast_value(value)
-        return value.to_f if value.to_s.to_f.to_s == value.to_s
-        return value.to_i if value.to_s.to_i.to_s == value.to_s
+        string_value = value.to_s
+
+        unless (numeric_value = numeric_value(string_value)).nil?
+          return numeric_value
+        end
+
+        unless (boolean_value = boolean_value(string_value)).nil?
+          return boolean_value
+        end
 
         value
-      rescue
-        value
+      end
+
+      def numeric_value(value)
+        return value.to_f if value.to_f.to_s == value
+        return value.to_i if value.to_i.to_s == value
+
+        nil
+      end
+
+      def boolean_value(value)
+        return true if value == true || value =~ /^(true)$/i
+        return false if value == false || value =~ /^(false)$/i
+
+        nil
       end
 
       def defaults

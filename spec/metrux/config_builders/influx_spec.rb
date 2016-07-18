@@ -76,6 +76,27 @@ describe Metrux::ConfigBuilders::Influx do
 
         it { is_expected.to eq(max_delay.to_f) }
       end
+
+      context 'and the key\'s value is a boolean' do
+        subject { build[:async] }
+
+        let(:async) { 'true' }
+
+        before do
+          @current_env_option = ENV["METRUX_INFLUX_ASYNC"]
+          ENV["METRUX_INFLUX_ASYNC"] = async
+        end
+
+        after { ENV["METRUX_INFLUX_ASYNC"] = @current_env_option }
+
+        it { is_expected.to eq(true) }
+
+        context 'when it is false' do
+          let(:async) { 'false' }
+
+          it { is_expected.to eq(false) }
+        end
+      end
     end
 
     context 'when neither yaml nor env var are defined' do
