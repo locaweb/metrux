@@ -18,7 +18,7 @@ module Metrux
       def fetch_data(error, options)
         format_data(
           { message: error.message.truncate(100, separator: ' '), value: 1 },
-          { tags: fetch_tags(error, options) }
+          tags: fetch_tags(error, options)
         )
       end
     end
