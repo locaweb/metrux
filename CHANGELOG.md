@@ -1,3 +1,7 @@
+# 0.11.0
+
+- Allow writing a point with a custom timestamp
+
 # 0.10.3
 
 - Cast boolean values for influx configs
