@@ -64,6 +64,30 @@ describe Metrux::Commands::Meter, type: :command do
 
         execute
       end
+
+      context 'and a timestamp is passed' do
+        let(:options) { { timestamp: timestamp } }
+        let(:timestamp) { Time.new(2016, 1, 1).to_i }
+
+        let(:expected_tags) { default_tags }
+
+        let(:expected_data) do
+          {
+            values: { value: 1 }, tags: expected_tags,
+            timestamp: timestamp
+          }
+        end
+
+        it { is_expected.to be(true) }
+
+        it do
+          expect(connection)
+            .to receive(:write_point)
+            .with(expected_key, expected_data, nil, nil)
+
+          execute
+        end
+      end
     end
   end
 end

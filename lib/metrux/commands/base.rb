@@ -37,7 +37,11 @@ module Metrux
 
       def format_data(value, params)
         values = value.is_a?(Hash) ? value : { value: value }
-        { values: values, tags: params.fetch(:tags, {}) }
+        {
+          values: values,
+          tags: params.fetch(:tags, {}),
+          timestamp: params.fetch(:timestamp, default_timestamp)
+        }
       end
 
       def format_write_options(params)
@@ -47,12 +51,11 @@ module Metrux
       private
 
       def default_data
-        {
-          tags: DEFAULT_TAGS.merge(
-            app_name: app_name, env: env
-          ),
-          timestamp: (Time.now.utc.to_f * 1_000_000_000).to_i
-        }
+        { tags: DEFAULT_TAGS.merge(app_name: app_name, env: env) }
+      end
+
+      def default_timestamp
+        (Time.now.utc.to_f * 1_000_000_000).to_i
       end
     end
   end

@@ -124,6 +124,32 @@ describe Metrux::Commands::PeriodicGauge, type: :command do
 
         execute && wait_execution.call
       end
+
+      context 'and a timestamp is passed' do
+        let(:options) { { timestamp: timestamp } }
+        let(:timestamp) { Time.new(2016, 1, 1).to_i }
+
+        let(:expected_tags) { default_tags }
+
+        let(:expected_data) do
+          {
+            values: { value: result }, tags: expected_tags,
+            timestamp: timestamp
+          }
+        end
+
+        it do
+          expect(connection)
+            .to receive(:write_point)
+            .with(expected_key, expected_data, nil, nil)
+
+          expect_any_instance_of(Metrux::Commands::PeriodicGauge::Agent)
+            .to receive(:wait)
+            .with(interval)
+
+          execute && wait_execution.call
+        end
+      end
     end
   end
 end

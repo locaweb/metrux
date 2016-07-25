@@ -59,6 +59,28 @@ describe Metrux::Commands::NoticeError, type: :command do
 
         execute
       end
+
+      context 'and a timestamp is passed' do
+        let(:payload) { tags.merge(timestamp: timestamp) }
+        let(:timestamp) { Time.new(2016, 1, 1).to_i }
+
+        let(:expected_data) do
+          {
+            values: { value: 1, message: error_message },
+            tags: expected_tags, timestamp: timestamp
+          }
+        end
+
+        it { is_expected.to be(true) }
+
+        it do
+          expect(connection)
+            .to receive(:write_point)
+            .with(expected_key, expected_data, nil, nil)
+
+          execute
+        end
+      end
     end
   end
 end
