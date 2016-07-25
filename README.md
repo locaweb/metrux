@@ -85,6 +85,8 @@ data =  1
 # Options are not required
 options = { tags: { something: 'a-string-value' }, precision: 's' }
 
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
+
 Metrux.write(key, data, options)
 ```
 
@@ -104,6 +106,8 @@ data =  { another_field: 1, value: 2 }
 
 # Options are not required
 options = { tags: { something: 'a-string-value' }, precision: 's' }
+
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
 
 Metrux.write(key, data, options)
 ```
@@ -127,6 +131,8 @@ key = 'my_meter'
 
 # Options are not required
 options = { tags: { something: 'a-string-value' }, precision: 's' }
+
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
 
 Metrux.meter(key, options)
 ```
@@ -152,6 +158,8 @@ options = {
   value: value, tags: { something: 'a-string-value' }, precision: 's'
 }
 
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
+
 Metrux.meter(key, options)
 ```
 
@@ -175,6 +183,8 @@ key = 'my_gauge'
 
 # Options are not required
 options = { tags: { something: 'a-string-value' }, precision: 's' }
+
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
 
 Metrux.gauge(key, options) { 40 }
 # => 40
@@ -202,6 +212,8 @@ result = 42
 options = {
   result: result, tags: { something: 'a-string-value' }, precision: 's'
 }
+
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
 
 Metrux.gauge(key, options)
 # => 42
@@ -232,6 +244,8 @@ key = 'my_periodic_gauge'
 
 # Options are not required
 options = { tags: { something: 'a-string-value' }, precision: 's' }
+
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
 
 Metrux.periodic_gauge(key, options) { Thread.list.count }
 ```
@@ -268,6 +282,8 @@ key = 'my_timer'
 # Options are not required
 options = { tags: { something: 'a-string-value' }, precision: 's' }
 
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
+
 Metrux.timer(key, options) { sleep(0.45); 40 }
 # => 40
 ```
@@ -292,6 +308,8 @@ options = {
   duration: duration, tags: { something: 'a-string-value' }, precision: 's'
 }
 
+# options[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
+
 Metrux.timer(key, options)
 # => nil
 ```
@@ -314,6 +332,8 @@ def do_something(a, b)
 rescue => e
   # Args are not required
   args = { a: a, b: b, uri: 'http://domain.tld/path' }
+
+  # args[:timestamp] = Time.now.to_i # you can also provide a custom timestamp
 
   Metrux.notice_error(e, args)
 
