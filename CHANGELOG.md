@@ -1,3 +1,7 @@
+# 1.0.0 (open source release \o/)
+
+- NO CHANGES
+
 # 0.11.0
 
 - Allow writing a point with a custom timestamp
